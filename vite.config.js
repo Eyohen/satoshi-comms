@@ -24,7 +24,7 @@ function copyRuntimeAssets() {
       for (const entry of readdirSync(designRoot)) {
         if (/\.(png|jpe?g|webp|gif|svg)$/i.test(entry)) copy(entry, entry)
       }
-      for (const directory of ['art', 'ba', 'mascot', 'pf', 'shot02', 'shot03']) {
+      for (const directory of ['assets', 'art', 'ba', 'mascot', 'pf', 'shot02', 'shot03']) {
         copy(directory, directory)
       }
     },

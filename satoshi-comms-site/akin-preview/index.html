@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>The Akin House · Concept Preview</title>
+<meta name="description" content="Concept preview of a staff portal for order management, production tracking and delivery, built by Satoshi Communications. Not the real client's system.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --gold:#B2802E;--gold-d:#8F6523;--cream:#F7F3EC;--card:#FFFDF9;--ink:#2B2420;--mut:#8A7F72;--line:#E8DFD0;
+  --serif:'Fraunces',Georgia,serif;--sans:'DM Sans',system-ui,sans-serif;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%}
+body{font-family:var(--sans);color:var(--ink);background:
+  radial-gradient(900px 500px at 8% 0%,#EFE3C8 0,transparent 60%),
+  radial-gradient(800px 500px at 100% 100%,#E9DCC0 0,transparent 55%),var(--cream);
+  display:flex;align-items:center;justify-content:center;min-height:100vh;overflow:hidden}
+button{font:inherit;color:inherit;border:0;background:none;padding:0;cursor:pointer}
+.stage{display:flex;align-items:center;gap:64px;padding:16px}
+.side{width:320px}
+.side .eyebrow{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:12px}
+.side h1{font-family:var(--serif);font-size:38px;line-height:1.08;margin:0 0 12px;font-weight:700}
+.side h1 em{font-style:normal;color:var(--gold)}
+.side p{color:var(--mut);font-size:14px;line-height:1.6;margin:0 0 20px}
+.nav{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:22px}
+.nav button{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 12px;font-size:13px;font-weight:600;text-align:left;transition:border-color .15s,color .15s}
+.nav button.on{border-color:var(--gold);color:var(--gold-d)}
+.note{font-size:12.5px;color:var(--mut);line-height:1.55;border-top:1px solid var(--line);padding-top:16px}
+.note b{color:var(--ink)}
+.phonewrap{position:relative}
+.phone{width:300px;height:650px;background:#141210;border-radius:46px;padding:12px;box-shadow:0 40px 70px -24px rgba(20,14,5,.45)}
+.screen{width:100%;height:100%;border-radius:36px;overflow:hidden;background:#fff;position:relative}
+.screen img{width:100%;height:100%;-o-object-fit:cover;object-fit:cover;-o-object-position:top center;object-position:top center;display:block}
+.caption{text-align:center;margin-top:18px;font-size:13px;color:var(--mut)}
+.caption b{color:var(--ink)}
+@media (max-width:860px){
+  body{overflow:auto;padding:32px 0}
+  .stage{flex-direction:column;gap:28px}
+  .side{width:min(420px,88vw)}
+  .phone{width:260px;height:564px}
+}
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="side">
+    <p class="eyebrow">Concept preview</p>
+    <h1>The Akin <em>House</em></h1>
+    <p>A staff portal concept for a tailoring house: orders, production, quality checks and delivery in one place. Tap a screen to explore.</p>
+    <div class="nav" id="nav"></div>
+    <p class="note"><b>Not the client's live system.</b> This is a concept Satoshi Communications built to show how a tailoring business's order flow could work, start to finish.</p>
+  </div>
+  <div class="phonewrap">
+    <div class="phone"><div class="screen"><img id="shot" src="/assets/screen-1--WUa2YZS.jpg" alt="The Akin House staff portal screen"></div></div>
+    <p class="caption">Concept by <b>Satoshi Communications</b></p>
+  </div>
+</div>
+<script>
+var SCREENS=[
+  {n:1,label:"Sign In"},
+  {n:2,label:"Home"},
+  {n:3,label:"Orders"},
+  {n:5,label:"Order Detail"},
+  {n:6,label:"Payment"},
+  {n:7,label:"Production"},
+  {n:8,label:"Quality Check"},
+  {n:9,label:"Delivery"},
+  {n:10,label:"Order Journey"},
+  {n:11,label:"Settings"}
+];
+var nav=document.getElementById("nav"), shot=document.getElementById("shot");
+SCREENS.forEach(function(s,i){
+  var b=document.createElement("button");
+  b.textContent=s.label;
+  if(i===1) b.className="on";
+  b.addEventListener("click",function(){
+    shot.src="assets/screen-"+s.n+".jpg";
+    nav.querySelectorAll("button").forEach(function(x){x.classList.remove("on")});
+    b.classList.add("on");
+  });
+  nav.appendChild(b);
+});
+shot.src="assets/screen-2.jpg";
+</script>
+</body>
+</html>

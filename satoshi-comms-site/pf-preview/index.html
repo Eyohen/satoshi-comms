@@ -1,0 +1,344 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Pamper &amp; Fun · Booking App Preview</title>
+<meta name="description" content="Interactive preview of the Pamper & Fun massage booking app, built by Satoshi Communications.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--or:#F26B21;--or-d:#D9540F;--or-l:#FFD9BE;--cream:#FDF3E6;--card:#FFFAF4;--ink:#1E2B3A;--mut:#7B8794;--line:#F0DFCB;--green:#2E9D63;--amber:#E39A1B;--red:#D8452F;
+ --head:'Outfit',system-ui,sans-serif;--sans:'DM Sans',system-ui,sans-serif}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%}
+body{font-family:var(--sans);color:var(--ink);background:radial-gradient(900px 520px at 8% 0%,#FFE2C9 0,transparent 60%),radial-gradient(800px 500px at 100% 100%,#FFD5B2 0,transparent 55%),#FFF6EC;
+ display:flex;align-items:center;justify-content:center;min-height:100vh;overflow:hidden}
+button{font:inherit;color:inherit;border:0;background:none;padding:0;cursor:pointer}
+input{font:inherit}
+.stage{display:flex;align-items:center;gap:64px;padding:16px}
+.side{width:300px}
+.side .eyebrow{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--or);font-weight:700;margin-bottom:12px}
+.side h1{font-family:var(--head);font-size:40px;line-height:1.05;margin:0 0 12px;font-weight:800}
+.side h1 em{font-style:normal;color:var(--or)}
+.side p{color:var(--mut);font-size:14px;line-height:1.55;margin:0 0 20px}
+.jump{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:22px}
+.jump button{background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px 12px;font-size:13px;font-weight:600;text-align:left}
+.jump button:hover,.jump button.on{border-color:var(--or);color:var(--or)}
+.credit{font-size:12px;color:var(--mut)}.credit b{color:var(--ink)}
+.phone{position:relative;width:390px;height:min(844px,calc(100dvh - 32px));border-radius:52px;border:10px solid #17141a;background:var(--cream);overflow:hidden;box-shadow:0 40px 80px -30px rgba(160,70,10,.45),0 0 0 2px #3a343d}
+.phone::before{content:"";position:absolute;top:9px;left:50%;transform:translateX(-50%);width:104px;height:28px;border-radius:20px;background:#17141a;z-index:40}
+.status{position:absolute;top:0;left:0;right:0;height:46px;display:flex;justify-content:space-between;align-items:center;padding:6px 30px 0;font-weight:700;font-size:15px;z-index:30;pointer-events:none}
+.status svg{width:18px;height:18px}
+.view{position:absolute;left:0;right:0;top:44px;bottom:0;overflow-y:auto;overflow-x:hidden;scrollbar-width:none;background:var(--cream)}
+.view::-webkit-scrollbar{display:none}
+.view.hasnav{bottom:74px}
+.nav{position:absolute;left:0;right:0;bottom:0;height:74px;background:var(--card);border-top:1px solid var(--line);display:flex;padding:8px 6px 0;z-index:25}
+.nav[hidden]{display:none}
+.nav button{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:11px;color:var(--mut);font-weight:500}
+.nav button.on{color:var(--or);font-weight:700}
+.nav .ic{width:24px;height:24px}
+.toast{position:absolute;left:20px;right:20px;bottom:90px;background:var(--ink);color:#fff;border-radius:14px;padding:12px 16px;font-size:13px;z-index:60;opacity:0;transform:translateY(10px);transition:.25s;pointer-events:none;text-align:center}
+.toast.show{opacity:1;transform:none}
+
+.ic{width:20px;height:20px;flex:none}
+.pad{padding:0 20px}
+.row{display:flex;align-items:center}.grow{flex:1;min-width:0}.mut{color:var(--mut)}.or{color:var(--or)}
+.head{font-family:var(--head);font-weight:800;letter-spacing:-.02em}
+.btn{display:flex;align-items:center;justify-content:center;gap:10px;height:54px;border-radius:99px;background:var(--or);color:#fff;font-weight:700;font-size:17px;width:100%;box-shadow:0 14px 24px -14px var(--or);font-family:var(--head)}
+.btn:active{transform:scale(.99)}
+.btn.sm{height:36px;font-size:13px;width:auto;padding:0 18px;box-shadow:none}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid #C9BBA9;box-shadow:none;font-size:14px;height:38px;width:auto;padding:0 20px;font-family:var(--sans);font-weight:500}
+.btn:disabled{opacity:.45}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:0 8px 20px -16px rgba(120,60,10,.5)}
+.round{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;flex:none}
+.im{position:relative;background-color:#F6D9BC;background-image:linear-gradient(135deg,#F8D9BB,#FDEBD8 60%,#F4C9A2);background-size:cover;background-position:center;flex:none;overflow:hidden}
+.im.has{background-image:none}
+.im.big:not(.has)::after{content:attr(data-slot);position:absolute;left:8px;bottom:6px;font-size:9px;letter-spacing:.06em;color:#B66A33;opacity:.8;text-transform:uppercase}
+.av{display:inline-grid;place-items:center;border-radius:50%;background:linear-gradient(135deg,#F9CBA3,#FDEBD8);color:var(--or-d);font-family:var(--head);font-weight:700;background-size:cover;background-position:center;flex:none;border:2px solid #fff;box-shadow:0 4px 10px -4px rgba(180,80,10,.45)}
+.av.has{color:transparent}
+.av.rect{border-radius:20px;background-position:center 20%}
+.lg{display:inline-block;line-height:1}
+.lg-img{display:none;height:var(--lh,48px);width:calc(var(--lh,48px)*1.662);background-size:contain;background-repeat:no-repeat;background-position:center}
+.lg-img.has{display:block}.lg-img.has + .lg-txt{display:none}
+.lg-txt{display:flex;flex-direction:column;align-items:center;font-family:var(--head);font-weight:800;color:#34495E;font-size:calc(var(--lh,48px)*.3);letter-spacing:-.01em;line-height:1}
+.lg-txt i{display:block;width:calc(var(--lh,48px)*.8);height:calc(var(--lh,48px)*.4);border:3px solid var(--or);border-bottom:0;border-radius:99px 99px 0 0;margin-bottom:2px}
+.top{display:flex;align-items:center;justify-content:space-between;padding:6px 20px 8px;position:relative;height:60px}
+.top .mid{position:absolute;left:50%;transform:translateX(-50%);top:2px}
+.top .st{font-size:14px;color:#556}
+.back{width:38px;height:38px;display:grid;place-items:center}
+
+/* home */
+.hero{padding:6px 24px 0;position:relative;background:radial-gradient(260px 200px at 85% 22%,#FFE1C6 0,transparent 70%)}
+.hero h1{font-size:42px;line-height:.98;margin:14px 0 0}
+.hero h1 b{color:var(--or);display:block}
+.portrait{position:relative;width:260px;height:206px;margin:16px auto 0}
+.portrait .blob{position:absolute;right:-14px;top:-30px;width:150px;height:150px;border-radius:50%;background:#FFE0C8;opacity:.8}
+.portrait .ph{position:absolute;left:50%;transform:translateX(-30%);top:0;width:196px;height:196px;border:6px solid #fff;box-shadow:0 20px 30px -18px rgba(100,40,0,.5)}
+.chipb{position:absolute;background:#fff;border-radius:10px;padding:6px 9px;font-size:11px;font-weight:700;box-shadow:0 8px 16px -8px rgba(80,30,0,.4);transform:rotate(-6deg);font-family:var(--head)}
+.chipb.dk{background:var(--ink);color:#fff}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:0 24px;margin-top:0}
+.stats div{background:var(--ink);color:#fff;border-radius:12px;padding:9px 6px;text-align:center;font-size:10px;color:#C5CDD6}
+.stats b{display:block;color:#fff;font-size:19px;font-family:var(--head);font-weight:700}
+.pros{display:grid;grid-template-columns:repeat(3,1fr);gap:14px 8px;padding:0 24px;margin:12px 0 16px}
+.pros button{text-align:center;font-size:12px;font-weight:700;font-family:var(--head);display:flex;flex-direction:column;align-items:center;gap:6px}
+.pros small{display:block;font-weight:400;font-family:var(--sans);color:var(--mut);font-size:10px;margin-top:-4px}
+
+/* list */
+.find{position:relative;padding:4px 20px 0;overflow:hidden}
+.find .art{position:absolute;right:-20px;top:-6px;width:230px;height:120px;-webkit-mask-image:linear-gradient(to left,#000 50%,transparent);mask-image:linear-gradient(to left,#000 50%,transparent)}
+.find .row{position:relative}
+.find h1{font-size:28px;margin:34px 0 4px;position:relative;line-height:1.05}
+.feats{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:12px 0}
+.feats div{text-align:center;font-size:9.5px;padding:8px 2px;color:#51606f;line-height:1.2}
+.feats .ic{color:var(--or);margin-bottom:3px;width:22px;height:22px}
+.search{display:flex;align-items:center;gap:10px;height:48px;padding:0 12px;border:1px solid var(--line);border-radius:14px;background:#fff}
+.search input{border:0;outline:0;flex:1;font-size:14px;background:none;min-width:0}
+.chips{display:flex;gap:8px;overflow:auto;scrollbar-width:none;margin:12px 0 14px;padding-bottom:2px}
+.chips button{padding:9px 16px;border-radius:99px;background:#fff;border:1px solid var(--line);font-size:13px;font-weight:600;white-space:nowrap;color:#4a5866}
+.chips button.on{background:var(--or);color:#fff;border-color:var(--or)}
+.th{padding:12px;margin-bottom:10px;display:flex;gap:12px;text-align:left;width:100%}
+.th b.n{font-family:var(--head);font-size:17px}
+.tag{display:inline-block;font-size:10px;padding:3px 8px;border-radius:7px;background:#F2E6D8;color:#55636f;margin:0 4px 4px 0;white-space:nowrap}
+.sta{font-size:10px;font-weight:700;padding:3px 8px;border-radius:99px;display:inline-flex;align-items:center;gap:4px}
+.sta::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+.sta.Available{background:#E1F4E8;color:var(--green)}.sta.Busy{background:#FFF0D2;color:#B77508}.sta.Away{background:#ECE7E0;color:#7B6F63}.sta.Unavailable{background:#FDE4DF;color:var(--red)}
+.heart{width:34px;height:34px;display:grid;place-items:center;color:#3c4854;flex:none}
+.heart.on{color:var(--or)}
+.empty{text-align:center;padding:40px 20px;color:var(--mut);font-size:14px}
+
+/* profile */
+.pphoto{margin:0 20px;height:220px;border-radius:24px;border:0}
+.sec{font-family:var(--head);font-weight:700;font-size:17px;margin:18px 20px 8px}
+.svrow{display:flex;align-items:center;gap:10px;padding:11px 12px;margin:0 20px 8px;font-size:14px}
+.tchip{padding:9px 14px;border-radius:10px;background:#fff;border:1px solid var(--line);font-size:13px;font-weight:600;color:#4a5866}
+.tchip.on{background:var(--or);color:#fff;border-color:var(--or)}
+.tchip:disabled{opacity:.4;text-decoration:line-through}
+.stickb{position:sticky;bottom:0;padding:14px 20px 20px;background:linear-gradient(transparent,var(--cream) 35%)}
+
+/* service */
+.stitle{font-family:var(--head);font-weight:800;font-size:32px;letter-spacing:-.02em;margin:18px 20px 2px}
+.sopt{display:flex;gap:12px;align-items:center;padding:10px;margin:0 20px 10px;width:calc(100% - 40px);text-align:left;border:1.5px solid var(--line)}
+.sopt.on{border-color:var(--or);box-shadow:0 12px 24px -16px var(--or)}
+.radio{width:22px;height:22px;border-radius:50%;border:2px solid #CDBFAE;flex:none}
+.sopt.on .radio{border-color:var(--or);background:radial-gradient(var(--or) 5px,transparent 6px)}
+.bw{display:flex;align-items:center;gap:12px;padding:12px;margin:8px 20px 6px;width:calc(100% - 40px);text-align:left}
+.days{display:flex;gap:6px;margin:0 20px}
+.dayb{flex:1;padding:10px 0;border-radius:99px;font-size:12px;font-weight:600;color:#B7ABA0;text-align:center}
+.dayb.av2{color:var(--or);background:#FFE6D2}
+.dayb.on{background:var(--or);color:#fff}
+.dayb:disabled{pointer-events:none}
+.tgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:0 20px}
+.tb{height:56px;border-radius:12px;border:1px solid var(--line);background:#fff;font-weight:700;font-size:17px;font-family:var(--head)}
+.tb.on{background:var(--or);color:#fff;border-color:var(--or)}
+.tb:disabled{background:#F4EBDF;color:#C4B8AB;text-decoration:line-through}
+/* review */
+.rrow{display:flex;align-items:center;gap:12px;padding:12px;margin:0 20px 10px;width:calc(100% - 40px);text-align:left;font-weight:600}
+.price{padding:16px;margin:16px 20px}
+.price div{display:flex;justify-content:space-between;padding:6px 0;font-size:15px}
+.price .t{border-top:1px solid var(--line);margin-top:8px;padding-top:12px;font-family:var(--head);font-weight:700;font-size:20px}
+/* paying / done */
+.center{text-align:center;padding:20px}
+.spin{width:84px;height:84px;border-radius:50%;border:8px solid #FFE0CB;border-top-color:var(--or);margin:70px auto 26px;animation:sp 1s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+.okc{width:92px;height:92px;border-radius:50%;background:var(--or);display:grid;place-items:center;color:#fff;margin:44px auto 14px;box-shadow:0 0 0 14px #FFE6D3;animation:pop .5s cubic-bezier(.2,1.6,.4,1)}
+.okc .ic{width:48px;height:48px;stroke-width:3}
+@keyframes pop{from{transform:scale(.3);opacity:0}}
+.conf{position:absolute;width:8px;height:14px;border-radius:2px;animation:fall 1.4s ease-out both}
+@keyframes fall{from{transform:translateY(-30px) rotate(0);opacity:0}30%{opacity:1}}
+.btns{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:16px 20px}
+.btns .btn{height:48px;font-size:13px;gap:6px;padding:0 6px}
+/* bookings */
+.tabs{display:flex;margin:12px 20px 6px;border-bottom:1px solid var(--line)}
+.tabs button{flex:1;padding:12px 0;font-weight:700;font-family:var(--head);color:var(--mut);border-bottom:3px solid transparent;font-size:16px}
+.tabs button.on{color:var(--or);border-color:var(--or)}
+.bk{display:flex;gap:12px;align-items:center;padding:12px;margin:0 20px 10px;width:calc(100% - 40px);text-align:left}
+.bst{font-size:11px;font-weight:700;padding:5px 10px;border-radius:99px}
+.bst.Confirmed{background:#FFE2CF;color:var(--or-d)}.bst.Completed{background:#ECE7E0;color:#6B6055}.bst.Cancelled{background:#FDE4DF;color:var(--red)}
+@media(max-width:940px){.side{display:none}}
+@media(max-width:520px){body{display:block;overflow:auto}.stage{padding:0;display:block}.phone{width:100vw;height:100dvh;border:0;border-radius:0;box-shadow:none}.phone::before,.status{display:none}.view{top:0;padding-top:env(safe-area-inset-top)}}
+</style>
+</head>
+<body>
+<div class="stage">
+  <aside class="side">
+    <div class="eyebrow">Interactive preview</div>
+    <h1>Pamper <em>&amp;</em> Fun</h1>
+    <p>Pro massage on demand. Browse vetted therapists, pick a service and time, and book in under a minute. Tap around the phone to try it.</p>
+    <div class="jump" id="jump"></div>
+    <p style="font-size:13px"><b style="color:var(--ink)">Try this:</b> tap <b style="color:var(--or)">Book a massage</b>, filter by style, open a therapist, then pick a service and a time.</p>
+    <div class="credit">Concept by <b>Satoshi Communications</b></div>
+  </aside>
+  <div class="phone" id="phone">
+    <div class="status"><span>9:41</span><span style="display:flex;gap:6px;align-items:center">
+      <svg viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="15" width="3" height="6" rx="1"/><rect x="7" y="11" width="3" height="10" rx="1"/><rect x="12" y="7" width="3" height="14" rx="1"/><rect x="17" y="3" width="3" height="18" rx="1"/></svg>
+      <svg viewBox="0 0 28 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" style="width:24px"><path d="M2 9a17 17 0 0124 0M6 13.5a11 11 0 0116 0M10 18a5 5 0 018 0"/></svg>
+      <svg viewBox="0 0 30 24" style="width:28px"><rect x="1" y="6" width="24" height="12" rx="3.5" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="3" y="8" width="18" height="8" rx="2" fill="currentColor"/><rect x="26" y="10" width="2.5" height="4" rx="1" fill="currentColor"/></svg></span></div>
+    <div class="view" id="view"></div>
+    <nav class="nav" id="nav" hidden></nav>
+    <div class="toast" id="toast"></div>
+  </div>
+</div>
+<script>
+const P=d=>`<path d="${d}"/>`;
+const I={back:P('M15 6l-6 6 6 6'),chevR:P('M9 6l6 6-6 6'),check:P('M5 12.5l4.5 4.5L19 7'),
+heart:P('M12 20s-8-5-8-11a4.5 4.5 0 018-2.5A4.5 4.5 0 0120 9c0 6-8 11-8 11z'),
+bell:P('M6 16v-5a6 6 0 1112 0v5l2 2H4zM10 21a2 2 0 004 0'),search:P('M11 18a7 7 0 100-14 7 7 0 000 14zM20 20l-4-4'),
+pin:P('M12 21s7-6 7-11a7 7 0 10-14 0c0 5 7 11 7 11zM12 12a2 2 0 100-4 2 2 0 000 4z'),clock:P('M12 21a9 9 0 100-18 9 9 0 000 18zM12 7v5l3 2'),
+cal:P('M5 5h14a1 1 0 011 1v13a1 1 0 01-1 1H5a1 1 0 01-1-1V6a1 1 0 011-1zM4 10h16M8 3v4M16 3v4'),
+sliders:P('M4 7h10M18 7h2M4 17h2M10 17h10M16 4v6M8 14v6'),shield:P('M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6zM9 12l2 2 4-4'),
+lotus:P('M12 20c-4 0-8-3-8-9 4 0 7 2 8 5 1-3 4-5 8-5 0 6-4 9-8 9zM12 16c-2-2-2-6 0-10 2 4 2 8 0 10z'),
+star:'<path fill="currentColor" stroke="none" d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/>',
+home:P('M4 11l8-7 8 7v8a1 1 0 01-1 1h-4v-6H9v6H5a1 1 0 01-1-1z'),clip:P('M8 4h8v3H8zM6 5h12v16H6zM9 12h6M9 16h6'),
+user:P('M12 12a4 4 0 100-8 4 4 0 000 8zM4 20c0-4 4-6 8-6s8 2 8 6'),msg:P('M4 5h16v11H9l-5 4z'),
+verified:'<path fill="currentColor" stroke="none" d="M12 2l2.4 1.8 3-.1 1 2.8 2.4 1.8-.9 2.9.9 2.9-2.4 1.8-1 2.8-3-.1L12 22l-2.4-1.8-3 .1-1-2.8L3.2 15.6l.9-2.9-.9-2.9 2.4-1.8 1-2.8 3 .1z"/><path stroke="#fff" stroke-width="2.4" d="M8 12l3 3 5-6"/>'};
+const ic=(n,c='',st='')=>`<svg class="ic ${c}" style="${st}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">${I[n]}</svg>`;
+
+/* image slots: assets/<name>.(jpg|png|webp) */
+const EXT=['jpg','png','webp','jpeg'],CACHE={};
+function resolve(b){if(b in CACHE)return CACHE[b];return CACHE[b]=new Promise(r=>{let i=0;(function n(){if(i>=EXT.length)return r(null);const u=`${b}.${EXT[i++]}`,im=new Image();im.onload=()=>r(u);im.onerror=n;im.src=u})()})}
+function hydrate(root=document){root.querySelectorAll('[data-img]:not(.has)').forEach(el=>resolve(el.dataset.img).then(u=>{if(u){el.style.backgroundImage=`url("${u}")`;el.classList.add('has')}}))}
+const slot=(n,cls='',st='')=>`<div class="im ${cls}" data-slot="${n}" data-img="assets/${n}" style="${st}"></div>`;
+const av=(k,name,s=60,rect=false,st='')=>`<i class="av ${rect?'rect':''}" data-img="assets/avatars/${k}" style="width:${s}px;height:${s}px;font-size:${Math.round(s*.4)}px;${st}">${name[0]}</i>`;
+const logo=(h=48)=>`<span class="lg" style="--lh:${h}px"><span class="lg-img" data-img="assets/logo"></span><span class="lg-txt"><i></i>Pamper &amp; Fun</span></span>`;
+const naira=n=>'₦'+n.toLocaleString('en-NG');
+
+/* data */
+const SV={swedish:{n:'Swedish Massage',p:90000,m:60,s:'svc-swedish'},deep:{n:'Deep Tissue Massage',p:120000,m:60,s:'svc-deep'},sports:{n:'Sports Massage (Premium)',p:250000,m:60,s:'svc-sports'},reflex:{n:'Reflexology',p:80000,m:60,s:'svc-reflex'},stone:{n:'Hot Stone Massage',p:130000,m:60,s:'svc-hotstone'}};
+const TH=[
+ {id:'kiki',n:'Kiki',r:4.80,o:567,area:'VI and Ikoyi',st:'Available',tags:['Swedish Massage','Deep Tissue','Hot Stone'],sv:['swedish','deep','sports'],next:'Today, 11:00 AM',days:[1,2],bio:'Kiki is a licensed physiotherapist, trained and certified in Europe before returning to Africa. She holds certifications in medical and oncology massage, alongside her physiotherapy background. This clinical training helps her give safe and effective care for every client.',spec:['Swedish Massage','Physiotherapy']},
+ {id:'tobi',n:'Tobi',r:4.79,o:432,area:'Lekki and environs',st:'Busy',tags:['Reflexology','Thai Massage','Aromatherapy'],sv:['reflex','swedish','deep'],next:'Tomorrow, 2:00 PM',days:[1,3,4],bio:'Tobi blends traditional Thai technique with modern reflexology. Clients love her calm, unhurried sessions that leave you properly reset after a long week.',spec:['Reflexology','Thai Massage']},
+ {id:'james',n:'James',r:4.65,o:387,area:'Ikeja and Ogudu',st:'Away',tags:['Sports Massage','Deep Tissue','Cupping'],sv:['sports','deep'],next:'Sat, 9:00 AM',days:[2,4,5],bio:'James works with runners, footballers and gym regulars. His deep tissue and cupping sessions target recovery, mobility and stubborn knots.',spec:['Sports Massage','Cupping']},
+ {id:'ifeoma',n:'Ifeoma',r:4.72,o:98,area:'Victoria Island',st:'Available',tags:['Reflexology','Foot Massage','Stress Relief'],sv:['reflex','swedish'],next:'Today, 2:00 PM',days:[1,2,4],bio:'Ifeoma specialises in reflexology and stress relief, ideal after long days at a desk or on your feet.',spec:['Reflexology','Stress Relief']},
+ {id:'femi',n:'Femi',r:4.68,o:76,area:'Lekki Phase 1',st:'Available',tags:['Sports Massage','Deep Tissue','Recovery'],sv:['sports','deep','swedish'],next:'Today, 4:00 PM',days:[1,2,3],bio:'Femi is a sports therapist focused on injury prevention and recovery. Great for athletes and anyone training hard.',spec:['Sports Massage','Recovery']},
+ {id:'maureen',n:'Maureen',r:4.75,o:112,area:'Ajah',st:'Busy',tags:['Deep Tissue','Trigger Point','Relaxation'],sv:['deep','swedish'],next:'Tomorrow, 11:00 AM',days:[2,4],bio:'Maureen is known for precise deep tissue and trigger point work. Booked solid most weeks, so grab a slot early.',spec:['Deep Tissue','Trigger Point']},
+ {id:'zaccheus',n:'Zaccheus',r:4.65,o:61,area:'Ikoyi',st:'Away',tags:['Sports Massage','Swedish','Stretch Therapy'],sv:['sports','swedish'],next:'Mon, 10:00 AM',days:[0,3],bio:'Zaccheus combines sports massage with assisted stretching to improve range of motion and ease tightness.',spec:['Sports Massage','Stretch Therapy']},
+ {id:'john',n:'John',r:4.79,o:89,area:'Lekki Phase 2',st:'Available',tags:['Hot Stone','Relaxation','Swedish'],sv:['stone','swedish','deep'],next:'Today, 5:00 PM',days:[1,2,4],bio:'John is the one to book when you want to switch off completely. Warm stones, slow pressure and a very quiet room.',spec:['Hot Stone Massage','Relaxation']}];
+const T=id=>TH.find(t=>t.id===id);
+const DAYS=[['Mon',5],['Tue',6],['Wed',7],['Thu',8],['Fri',9],['Sat',10],['Sun',11]];
+const TIMES=['11am','12pm','2pm','3pm','4pm','5pm'];
+const FILTERS=['All','Deep Tissue','Swedish','Reflexology','Sports','Hot Stone'];
+const S={screen:'home',hist:[],q:'',f:'All',fav:new Set(),th:null,svc:null,day:1,time:null,btab:0,last:null,
+ books:[{th:'kiki',sv:'swedish',when:'Oct 12, 11am',st:'Confirmed',m:1},{th:'maureen',sv:'deep',when:'Oct 15, 2pm',st:'Confirmed',m:1},{th:'ifeoma',sv:'reflex',when:'Oct 1, 10am',st:'Completed',m:1},{th:'zaccheus',sv:'sports',when:'Sep 7, 4pm',st:'Cancelled',m:0},{th:'john',sv:'stone',when:'Sep 5, 1pm',st:'Completed',m:0}]};
+const takenT=(t,d,i)=>(d*3+TH.indexOf(t)+i)%5===0;
+const fee=p=>Math.round(p*.025);
+const dayLabel=(d,t)=>`${DAYS[d][0]}, ${t}`;
+
+const R={};
+const navH=on=>[['list','home','Home'],['bookings','clip','Bookings'],['favs','heart','Favorites'],['prof','user','Profile']].map(([k,i,l])=>`<button class="${on===k?'on':''}" data-a="${k==='prof'?'toast':'go'}" data-v="${k==='prof'?'Profile and sign-in are part of the full build':k}">${ic(i)}${l}</button>`).join('');
+const topbar=(step)=>`<div class="top"><button class="back" data-a="back">${ic('back','','width:26px;height:26px')}</button><span class="mid">${logo(44)}</span>${step?`<span class="st">Step ${step} of 4</span>`:'<span style="width:38px"></span>'}</div>`;
+
+R.home=()=>({html:`<div class="hero">
+  <div class="row" style="justify-content:space-between"><span>${logo(46)}</span><button class="round" style="background:#fff;border:1px solid var(--line)" data-a="go" data-v="bookings">${ic('user')}</button></div>
+  <h1 class="head">Pro massage<b>on demand.</b></h1>
+  <div class="portrait"><div class="blob"></div>${av('kiki','Kiki',170,false,'position:absolute;left:50%;transform:translateX(-38%);top:4px;border-width:6px')}
+   <span class="chipb dk" style="left:-4px;top:12px">Vetted Pros</span><span class="chipb dk" style="right:-6px;top:70px;transform:rotate(4deg)">At Your Door</span><span class="chipb" style="right:14px;top:146px;color:var(--or)">Same-Day<br>Booking</span></div></div>
+  <div class="stats"><div><b>4.9★</b>Average rating</div><div><b>30min</b>Avg. arrival</div><div><b>100%</b>Vetted pros</div></div>
+  <div class="pad" style="margin-top:18px"><div class="head" style="font-size:20px">Meet your next favourite pro</div><div class="mut" style="font-size:13px;margin-top:2px">Skilled, vetted therapists. Ready when you are.</div></div>
+  <div class="pros" style="margin-top:14px">${['kiki','ifeoma','femi','maureen','zaccheus','john'].map(id=>{const t=T(id);return`<button data-a="prof" data-v="${id}">${av(id,t.n,62)}${t.n}<small>${t.spec[0]}</small></button>`}).join('')}</div>
+  <div class="pad"><button class="btn" data-a="go" data-v="list">Book a massage ${ic('chevR')}</button><div class="mut" style="text-align:center;font-size:12px;padding:12px 0 24px">${ic('pin','','width:13px;height:13px;vertical-align:-2px')} Same-day slots usually available in Lagos</div></div>`});
+
+const card=t=>`<div class="card th"><button data-a="prof" data-v="${t.id}" style="flex:none">${av(t.id,t.n,64)}</button>
+ <div class="grow"><div class="row" style="gap:8px"><b class="n">${t.n}</b><span class="sta ${t.st}">${t.st}</span><span class="grow"></span><button class="heart ${S.fav.has(t.id)?'on':''}" data-a="fav" data-v="${t.id}">${ic('heart','',S.fav.has(t.id)?'fill:currentColor':'')}</button></div>
+  <div style="font-size:12px;margin:1px 0 6px;color:#556"><span style="color:var(--amber)">${ic('star','','width:12px;height:12px;vertical-align:-1px')}</span> ${t.r.toFixed(2)} <span class="mut">(${t.o} orders)</span></div>
+  <div>${t.tags.map(x=>`<span class="tag">${x}</span>`).join('')}</div>
+  <div class="mut" style="font-size:11.5px;margin:2px 0 8px">${ic('pin','','width:12px;height:12px;vertical-align:-2px')} ${t.area}</div>
+  <div class="row"><span class="grow mut" style="font-size:11px">${ic('clock','','width:12px;height:12px;vertical-align:-2px')} Next available slot: <b style="color:var(--ink)">${t.next}</b></span>
+  ${t.st==='Available'?`<button class="btn sm" data-a="prof" data-v="${t.id}">Book Now</button>`:`<button class="btn ghost" style="height:34px;padding:0 14px;font-size:12px;color:var(--or);border-color:var(--or-l)" data-a="prof" data-v="${t.id}">View Profile</button>`}</div></div></div>`;
+const filtered=()=>TH.filter(t=>(S.f==='All'||t.tags.concat(t.spec).join(' ').toLowerCase().includes(S.f.toLowerCase().replace('hot stone','hot stone')))&&(!S.q||(t.n+t.area).toLowerCase().includes(S.q.toLowerCase())));
+R.list=()=>{const L=filtered();return{nav:'list',html:`
+ <div class="find">${slot('header-spa','art big')}<div class="row" style="justify-content:space-between;position:relative"><span>${logo(40)}</span><button class="round" style="background:#fff;border:1px solid var(--line)" data-a="toast" data-v="No new notifications">${ic('bell')}</button></div>
+  <h1 class="head">Find Your Perfect<br>Therapist</h1><div class="mut" style="font-size:13px;position:relative;max-width:240px">Relax, recharge and feel your best with trusted professionals near you.</div>
+  <div class="card feats" style="margin-top:12px;padding:2px 4px"><div>${ic('shield')}Verified<br>Therapists</div><div>${ic('lotus')}Multiple<br>Services</div><div>${ic('cal')}Easy<br>Booking</div><div>${ic('star')}Top Rated<br>Professionals</div></div>
+  <div class="search">${ic('search')}<input id="q" placeholder="Search by name or area" value="${S.q}"><span class="or">${ic('pin')}</span><span style="border-left:1px solid var(--line);padding-left:10px;color:#556">${ic('sliders')}</span></div>
+  <div class="chips">${FILTERS.map(f=>`<button class="${S.f===f?'on':''}" data-a="filt" data-v="${f}">${f}</button>`).join('')}</div>
+  <div class="row" style="margin-bottom:10px"><b class="head grow" style="font-size:18px">Available Therapists <span class="mut" style="font-size:12px;font-weight:400;font-family:var(--sans)">${L.length} therapist${L.length==1?'':'s'}</span></b></div>
+  <div id="cards">${L.map(card).join('')||'<div class="empty">No therapists match that search.</div>'}</div></div>`}};
+R.favs=()=>{const L=TH.filter(t=>S.fav.has(t.id));return{nav:'favs',html:`<div class="find" style="padding-top:12px"><h1 class="head" style="margin-top:6px">Favorites</h1><div class="mut" style="font-size:13px;margin-bottom:14px">Therapists you've saved</div>${L.map(card).join('')||`<div class="empty">${ic('heart','','width:34px;height:34px;color:var(--or)')}<div style="margin-top:8px">Nothing saved yet.<br>Tap the heart on a therapist to keep them here.</div><button class="btn sm" style="margin:16px auto 0" data-a="go" data-v="list">Browse therapists</button></div>`}</div>`}};
+
+R.prof=()=>{const t=T(S.th),d=S.day,av2=t.days;if(!av2.includes(d))S.day=av2[0];
+ return{html:`${topbar()}<div style="position:absolute;right:20px;top:6px;z-index:2"><button class="heart" style="background:#fff;border-radius:50%;width:38px;height:38px" data-a="fav" data-v="${t.id}">${ic('heart','',S.fav.has(t.id)?'fill:currentColor':'')}</button></div>
+  <div style="padding:0 20px">${av(t.id,t.n,0,true,'width:100%;height:230px;border-radius:26px;border:0;font-size:80px')}</div>
+  <div class="pad" style="margin-top:14px"><div class="head" style="font-size:28px">${t.n}</div>
+   <div class="row" style="margin-top:4px"><span class="grow" style="font-size:15px"><span style="color:var(--amber)">${ic('star','','width:16px;height:16px;vertical-align:-3px')}</span> <b>${t.r.toFixed(2)}</b> <span class="mut">(${t.o} orders)</span></span><span class="sta Available" style="background:#FFE9D6;color:#B65A1E;padding:6px 10px;font-size:12px"><span style="color:var(--or)">${ic('verified','','width:16px;height:16px')}</span>Verified</span></div>
+   <div class="mut" style="font-size:14px;margin:6px 0 10px">${ic('pin','','width:14px;height:14px;vertical-align:-2px')} ${t.area}</div>
+   <div>${t.spec.map(x=>`<span class="tag" style="font-size:12.5px;padding:7px 12px;border-radius:99px;border:1px solid var(--line);background:#fff">${x}</span>`).join('')}</div></div>
+  <div class="sec">About</div><div class="pad" style="font-size:14px;line-height:1.6;color:#44525f">${t.bio}</div>
+  <div class="sec">Services</div>${t.sv.map(k=>`<div class="card svrow"><b class="grow" style="font-size:14px">${SV[k].n}</b><span class="mut" style="font-size:12px">${ic('clock','','width:13px;height:13px;vertical-align:-2px')} ${SV[k].m} mins</span><b class="or" style="width:82px;text-align:right">${naira(SV[k].p)}</b></div>`).join('')}
+  <div class="sec" style="font-size:15px">Available: ${t.days.filter(x=>x<5).map(x=>DAYS[x][0]).join(' & ')}</div>
+  <div class="pad row" style="gap:8px;flex-wrap:wrap">${TIMES.map((x,i)=>{const off=takenT(t,S.day,i);return`<button class="tchip ${S.time===x?'on':''}" ${off?'disabled':''} data-a="ptime" data-v="${x}">${x}</button>`}).join('')}</div>
+  <div class="stickb"><button class="btn" data-a="book">Book Now</button></div>`}};
+
+R.service=()=>{const t=T(S.th);if(!S.svc||!t.sv.includes(S.svc))S.svc=t.sv[0];return{html:`${topbar(1)}
+  <div class="row pad" style="gap:12px;margin-top:6px">${av(t.id,t.n,62)}<div class="mut" style="font-size:15px;line-height:1.25">Booking with<br><b style="color:var(--ink);font-size:17px;font-family:var(--head)">${t.n}</b></div></div>
+  <div class="stitle">Choose a Service</div><div class="pad mut" style="font-size:15px;margin-bottom:14px">Select a service for your session</div>
+  ${t.sv.map(k=>{const s=SV[k];return`<button class="card sopt ${S.svc===k?'on':''}" data-a="svc" data-v="${k}">${slot(s.s,'',`width:96px;height:80px;border-radius:12px`)}<span class="grow"><b style="font-size:15px;font-family:var(--head)">${s.n}</b><div class="mut" style="font-size:12px;margin:3px 0 8px">${ic('clock','','width:13px;height:13px;vertical-align:-2px')} ${s.m} mins</div><b class="or" style="font-family:var(--head);font-size:16px">${naira(s.p)}</b></span><span class="radio"></span></button>`}).join('')}
+  <div class="pad" style="margin-top:18px;padding-bottom:20px"><button class="btn" data-a="to" data-v="time">Continue to Review</button></div>`}};
+
+R.time=()=>{const t=T(S.th),s=SV[S.svc];return{html:`${topbar(2)}
+  <div class="row pad" style="gap:12px;margin-top:6px">${av(t.id,t.n,62)}<div class="mut" style="font-size:15px;line-height:1.25">Booking with<br><b style="color:var(--ink);font-size:17px;font-family:var(--head)">${t.n}</b></div></div>
+  <button class="card bw" data-a="to" data-v="service">${slot(s.s,'',`width:84px;height:62px;border-radius:12px`)}<span class="grow"><b style="font-family:var(--head);font-size:16px">${s.n}</b><div class="mut" style="font-size:12px;margin-top:6px">${ic('clock','','width:13px;height:13px;vertical-align:-2px')} ${s.m} mins</div></span>${ic('chevR','mut')}</button>
+  <div class="stitle" style="font-size:30px;margin-top:22px">Pick a Day</div>
+  <div class="days" style="margin-top:12px">${DAYS.map((d,i)=>{const ok=t.days.includes(i);return`<button class="dayb ${ok?'av2':''} ${S.day===i?'on':''}" ${ok?'':'disabled'} data-a="day" data-v="${i}">${d[0]}</button>`}).join('')}</div>
+  <div class="stitle" style="font-size:30px;margin-top:26px">Available Times</div>
+  <div class="tgrid" style="margin-top:14px">${TIMES.map((x,i)=>{const off=takenT(t,S.day,i);return`<button class="tb ${S.time===x?'on':''}" ${off?'disabled':''} data-a="time" data-v="${x}">${x}</button>`}).join('')}</div>
+  <div class="pad" style="margin-top:30px;padding-bottom:20px"><button class="btn" ${S.time?'':'disabled'} data-a="to" data-v="review">Confirm Time ${ic('chevR')}</button></div>`}};
+
+R.review=()=>{const t=T(S.th),s=SV[S.svc],f=fee(s.p);return{html:`${topbar(3)}
+  <div class="stitle" style="margin-top:14px">Review Your Booking</div><div style="height:14px"></div>
+  <button class="card rrow" data-a="to" data-v="list">${av(t.id,t.n,56)}<span class="grow head" style="font-size:17px">${t.n}</span>${ic('chevR','mut')}</button>
+  <button class="card rrow" data-a="to" data-v="service">${slot(s.s,'',`width:80px;height:64px;border-radius:12px`)}<span class="grow"><b style="font-family:var(--head);font-size:16px">${s.n}</b><div class="mut" style="font-size:12px;margin-top:6px;font-weight:400">${ic('clock','','width:13px;height:13px;vertical-align:-2px')} ${s.m} mins</div></span>${ic('chevR','mut')}</button>
+  <button class="card rrow" data-a="to" data-v="time"><span class="or">${ic('cal','','width:26px;height:26px')}</span><span class="grow" style="font-size:17px;font-family:var(--head)">${dayLabel(S.day,S.time)}</span>${ic('chevR','mut')}</button>
+  <div class="card price"><div><span>Service</span><b class="or">${naira(s.p)}</b></div><div><span>Service fee</span><b class="or">${naira(f)}</b></div><div class="t"><span>Total</span><span>${naira(s.p+f)}</span></div></div>
+  <div class="pad" style="margin-top:34px;padding-bottom:20px"><button class="btn" data-a="pay">Proceed to Payment ${ic('chevR')}</button></div>`}};
+
+R.paying=()=>({html:`<div class="center"><div style="padding-top:8px">${logo(70)}</div><div class="spin"></div><div class="head" style="font-size:25px">Confirming your payment</div><div class="mut" style="margin-top:8px;font-size:15px">Please don't close this screen</div></div>`});
+
+R.done=()=>{const t=T(S.th),s=SV[S.svc];const cf=Array.from({length:22},(_,i)=>{const a=i*47%100,c=['#F26B21','#1E2B3A','#F7A15D'][i%3];return`<i class="conf" style="left:${a}%;top:${130+(i*13)%90}px;background:${c};animation-delay:${(i%6)*.08}s;transform:rotate(${i*31}deg)"></i>`}).join('');
+ return{html:`<div class="center" style="position:relative;overflow:hidden"><div style="padding-top:8px">${logo(70)}</div>${cf}
+  <div class="okc">${ic('check')}</div><div class="head" style="font-size:30px;margin-top:4px">Booking Confirmed</div><div class="mut" style="font-size:16px;margin:6px 0 20px">You're all set for your session</div>
+  <div class="card" style="text-align:left;padding:14px"><div class="row" style="gap:12px;padding-bottom:12px;border-bottom:1px solid var(--line)">${av(t.id,t.n,52)}<b class="head" style="font-size:18px">${t.n}</b></div>
+   <div class="row" style="gap:12px;padding-top:12px">${slot(s.s,'',`width:70px;height:58px;border-radius:10px`)}<div><b class="head" style="font-size:16px">${s.n}</b><div class="mut" style="font-size:13px;margin-top:6px">${ic('cal','','width:14px;height:14px;vertical-align:-2px')} ${dayLabel(S.day,S.time)}</div></div></div></div>
+  <div class="btns" style="margin:16px 0"><button class="btn" data-a="toast" data-v="Added to your calendar">Add to Calendar ${ic('chevR','','width:16px;height:16px')}</button><button class="btn" data-a="toast" data-v="Message sent to ${t.n}">Message Therapist ${ic('chevR','','width:16px;height:16px')}</button></div>
+  <button class="btn ghost" data-a="goHome">Back to Home</button><div style="height:14px"></div><button class="or" style="font-size:13px;font-weight:600" data-a="go" data-v="bookings">View My Bookings</button></div>`}};
+
+R.bookings=()=>{const L=S.books.filter(b=>S.btab===0?b.m:!b.m);return{nav:'bookings',html:`<div class="find" style="padding-top:8px"><div class="row" style="justify-content:center">${logo(40)}</div></div>
+  <div class="pad"><h1 class="head" style="font-size:32px;margin:10px 0 0">My Bookings</h1></div>
+  <div class="tabs">${['This Month','Past'].map((x,i)=>`<button class="${S.btab===i?'on':''}" data-a="btab" data-v="${i}">${x}</button>`).join('')}</div><div style="height:10px"></div>
+  ${L.map(b=>{const t=T(b.th),s=SV[b.sv];return`<button class="card bk" data-a="prof" data-v="${t.id}">${av(t.id,t.n,56)}<span class="grow"><b class="head" style="font-size:16px">${t.n}</b><div style="font-size:12.5px;color:#556;margin:1px 0 4px">${s.n.replace(' (Premium)','')}</div><div class="mut" style="font-size:12.5px">${ic('cal','','width:14px;height:14px;vertical-align:-3px')} ${b.when}</div></span><span class="bst ${b.st}">${b.st}</span>${ic('chevR','mut')}</button>`}).join('')||'<div class="empty">No bookings here yet.</div>'}`}};
+
+/* engine */
+const $=id=>document.getElementById(id),view=$('view'),navEl=$('nav'),phone=$('phone');let tt,payT;
+const toast=m=>{const t=$('toast');t.textContent=m;t.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('show'),2200)};
+function render(keep){const y=view.scrollTop,f=R[S.screen]();view.innerHTML=f.html;view.classList.toggle('hasnav',!!f.nav);navEl.hidden=!f.nav;if(f.nav)navEl.innerHTML=navH(f.nav);view.scrollTop=keep?y:0;hydrate(phone);
+ document.querySelectorAll('#jump button').forEach(b=>b.classList.toggle('on',b.dataset.v===S.screen))}
+function go(s,push=true){clearTimeout(payT);if(push&&S.screen!==s&&!['paying','done'].includes(S.screen))S.hist.push(S.screen);S.screen=s;render();if(s==='paying')payT=setTimeout(finish,2400)}
+function finish(){if(S.screen!=='paying')return;const d=DAYS[S.day];S.books.unshift({th:S.th,sv:S.svc,when:`Oct ${d[1]}, ${S.time}`,st:'Confirmed',m:1});S.screen='done';render()}
+function back(){const p=S.hist.pop()||'list';S.screen=p;render()}
+phone.addEventListener('click',e=>{const el=e.target.closest('[data-a]');if(!el)return;const a=el.dataset.a,v=el.dataset.v;
+ switch(a){
+  case 'go':S.hist=[];go(v,false);break;
+  case 'back':back();break;
+  case 'to':go(v);break;
+  case 'goHome':S.hist=[];go('home',false);break;
+  case 'prof':S.th=v;S.svc=null;S.time=null;S.day=T(v).days[0];go('prof');break;
+  case 'fav':S.fav.has(v)?S.fav.delete(v):S.fav.add(v);toast(S.fav.has(v)?'Saved to favorites':'Removed from favorites');render(true);break;
+  case 'filt':S.f=v;render(true);break;
+  case 'ptime':S.time=S.time===v?null:v;render(true);break;
+  case 'book':S.svc=null;go('service');break;
+  case 'svc':S.svc=v;render(true);break;
+  case 'day':S.day=+v;S.time=null;render(true);break;
+  case 'time':S.time=v;render(true);break;
+  case 'pay':go('paying');break;
+  case 'btab':S.btab=+v;render(true);break;
+  case 'toast':toast(v);break;
+ }});
+phone.addEventListener('input',e=>{if(e.target.id==='q'){S.q=e.target.value;const L=filtered();$('cards').innerHTML=L.map(card).join('')||'<div class="empty">No therapists match that search.</div>';hydrate($('cards'))}});
+const J=[['home','Home'],['list','Therapists'],['prof','Profile'],['service','Service'],['time','Pick a time'],['bookings','My bookings']];
+$('jump').innerHTML=J.map(j=>`<button data-v="${j[0]}">${j[1]}</button>`).join('');
+$('jump').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const v=b.dataset.v;S.hist=[];if(['prof','service','time'].includes(v)){S.th=S.th||'kiki';S.svc=S.svc||T(S.th).sv[0];}go(v,false)});
+render();
+</script>
+</body>
+</html>

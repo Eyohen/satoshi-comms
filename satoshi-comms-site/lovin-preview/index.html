@@ -1,0 +1,700 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Nails &amp; Hair Lov'n · Business App Preview</title>
+<meta name="description" content="Interactive preview of the Nails & Hair Lov'n salon management app, built by Satoshi Communications.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=DM+Sans:wght@400;500;600;700&family=Great+Vibes&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --pink:#E8316F;--pink-d:#C81E5A;--pink-l:#F9B8CC;--blush:#FDE6EE;--blush2:#FFF4F7;
+  --ink:#2B1B23;--mut:#8C7681;--line:#F5DCE5;--green:#2E9D63;--amber:#E39A1B;--purple:#7B5CD6;
+  --serif:'Playfair Display',Georgia,serif;--sans:'DM Sans',system-ui,sans-serif;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%}
+body{font-family:var(--sans);color:var(--ink);background:
+  radial-gradient(900px 500px at 10% 0%,#FFE3EC 0,transparent 60%),
+  radial-gradient(800px 500px at 100% 100%,#FFD6E4 0,transparent 55%),#FFF6F9;
+  display:flex;align-items:center;justify-content:center;min-height:100vh;overflow:hidden}
+button{font:inherit;color:inherit;border:0;background:none;padding:0;cursor:pointer}
+input{font:inherit}
+.stage{display:flex;align-items:center;gap:64px;padding:16px}
+.side{width:300px}
+.side h1{font-family:var(--serif);font-size:34px;line-height:1.1;margin:0 0 10px}
+.side h1 em{font-family:'Great Vibes',cursive;font-style:normal;color:var(--pink);font-size:46px;font-weight:400}
+.side p{color:var(--mut);font-size:14px;line-height:1.55;margin:0 0 20px}
+.side .eyebrow{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--pink);font-weight:700;margin-bottom:12px}
+.jump{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:22px}
+.jump button{background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px 12px;font-size:13px;font-weight:600;text-align:left;transition:.15s}
+.jump button:hover,.jump button.on{border-color:var(--pink);color:var(--pink)}
+.credit{font-size:12px;color:var(--mut)}
+.credit b{color:var(--ink)}
+
+.phone{position:relative;width:390px;height:min(844px,calc(100dvh - 32px));border-radius:52px;border:10px solid #17141a;background:var(--blush2);overflow:hidden;
+  box-shadow:0 40px 80px -30px rgba(120,20,60,.45),0 0 0 2px #3a343d}
+.phone::before{content:"";position:absolute;top:9px;left:50%;transform:translateX(-50%);width:104px;height:28px;border-radius:20px;background:#17141a;z-index:40}
+.status{position:absolute;top:0;left:0;right:0;height:46px;display:flex;justify-content:space-between;align-items:center;padding:6px 30px 0;font-weight:700;font-size:15px;z-index:30;pointer-events:none}
+.status svg{width:18px;height:18px}
+.view{position:absolute;left:0;right:0;top:44px;bottom:0;overflow-y:auto;overflow-x:hidden;scrollbar-width:none;background:linear-gradient(#FFEFF4,#fff 360px)}
+.view::-webkit-scrollbar{display:none}
+.view.hasnav{bottom:76px}
+.nav{position:absolute;left:0;right:0;bottom:0;height:76px;background:#fff;border-top:1px solid var(--line);display:flex;padding:8px 6px 0;z-index:25}
+.nav[hidden]{display:none}
+.nav button{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:11px;color:var(--mut);font-weight:500}
+.nav button.on{color:var(--pink);font-weight:700}
+.nav .ic{width:24px;height:24px}
+.toast{position:absolute;left:20px;right:20px;bottom:92px;background:#2B1B23;color:#fff;border-radius:14px;padding:12px 16px;font-size:13px;z-index:60;opacity:0;transform:translateY(10px);transition:.25s;pointer-events:none;text-align:center}
+.toast.show{opacity:1;transform:none}
+.scrim{position:absolute;inset:0;background:rgba(43,27,35,.45);z-index:50;opacity:0;pointer-events:none;transition:.2s}
+.scrim.show{opacity:1;pointer-events:auto}
+.sheet{position:absolute;left:0;right:0;bottom:0;background:#fff;border-radius:26px 26px 0 0;padding:10px 18px 28px;z-index:55;transform:translateY(105%);transition:.28s cubic-bezier(.2,.8,.2,1);max-height:75%;overflow:auto}
+.sheet.show{transform:none}
+.sheet .grab{width:42px;height:4px;border-radius:4px;background:#E9CBD6;margin:0 auto 14px}
+.sheet h4{margin:0 0 10px;font-size:17px}
+.opt{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:12px;border-radius:14px;border:1px solid var(--line);margin-bottom:8px;background:#fff}
+.opt:hover{border-color:var(--pink);background:var(--blush2)}
+.opt b{display:block;font-size:14px}.opt small{color:var(--mut);font-size:12px}
+.opt .grow{flex:1}
+
+/* generic bits */
+.ic{width:20px;height:20px;flex:none}
+.pad{padding:0 18px}
+.card{background:#fff;border:1px solid var(--line);border-radius:18px;box-shadow:0 10px 24px -16px rgba(232,49,111,.35)}
+.row{display:flex;align-items:center}
+.grow{flex:1;min-width:0}
+.mut{color:var(--mut)}
+.pink{color:var(--pink)}
+.btn{display:flex;align-items:center;justify-content:center;gap:10px;height:52px;border-radius:15px;background:var(--pink);color:#fff;font-weight:700;font-size:16px;width:100%;box-shadow:0 12px 22px -12px var(--pink)}
+.btn:active{transform:scale(.99)}
+.btn.line{background:#fff;color:var(--pink);border:1.5px solid var(--pink-l);box-shadow:none}
+.btn.sm{height:42px;font-size:14px;border-radius:12px}
+.round{width:40px;height:40px;border-radius:50%;background:#fff;border:1px solid var(--line);display:grid;place-items:center;flex:none}
+.round.pk{background:var(--pink);color:#fff;border:0;box-shadow:0 10px 18px -10px var(--pink)}
+.pill{display:inline-flex;align-items:center;gap:4px;height:24px;padding:0 10px;border-radius:99px;font-size:11px;font-weight:700;background:var(--blush);color:var(--pink)}
+.pill.Confirmed{background:#FDE6EE;color:var(--pink)}
+.pill.Checked{background:#EEE8FF;color:var(--purple)}
+.pill.Service{background:#FFF1D8;color:#B77508}
+.pill.Completed{background:#E2F5EA;color:var(--green)}
+.pill.Cancelled{background:#EFEAEC;color:#8A7B82}
+.pill.gold{background:#FFE9F0;color:var(--pink)}
+.h1{font-family:var(--serif);font-size:30px;margin:0;font-weight:600;letter-spacing:-.01em}
+.hdr{display:flex;align-items:center;gap:12px;padding:6px 18px 14px}
+.hdr h2{margin:0;font-size:18px;font-weight:700}
+.hdr small{display:block;color:var(--mut);font-size:12px;font-weight:400;margin-top:2px}
+.sec{font-weight:700;font-size:16px;margin:0}
+.built{text-align:center;color:var(--mut);font-size:12px;padding:18px 0 22px;line-height:1.5}
+.built b{color:var(--ink)}.built i{display:block;font-style:normal;font-size:8.5px;letter-spacing:.2em;margin-top:2px}
+
+/* image slots */
+.im{position:relative;background-color:#F8D5E0;background-image:linear-gradient(135deg,#F9D3E0,#FDEBF1 60%,#F7C6D6);background-size:cover;background-position:center;background-repeat:no-repeat;flex:none;overflow:hidden}
+.im.has{background-image:none}
+.im.cut.has{background-color:transparent;background-size:contain;background-position:center}
+.rev .art.cut{-webkit-mask-image:none;mask-image:none;width:38%;right:8px;top:10px;bottom:10px}
+.im.big:not(.has)::after{content:attr(data-slot);position:absolute;left:8px;bottom:6px;font-size:9px;letter-spacing:.06em;color:#C25C80;opacity:.8;text-transform:uppercase}
+.av{display:inline-grid;place-items:center;border-radius:50%;background:linear-gradient(135deg,#F9C6D6,#FDE9F0);color:var(--pink-d);font-weight:700;background-size:cover;background-position:center;flex:none;border:2px solid #fff;box-shadow:0 4px 10px -4px rgba(232,49,111,.5)}
+.av.has{color:transparent}
+.lg{display:inline-flex;flex-direction:column;align-items:flex-start;line-height:1}
+.lg .a{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:calc(var(--lh,52px)*.4);color:#2B1B23;letter-spacing:.01em;margin-bottom:calc(var(--lh,52px)*.02)}
+.lg-img{display:none;height:calc(var(--lh,52px)*.74);width:calc(var(--lh,52px)*.74*3.433);background-size:contain;background-repeat:no-repeat;background-position:left center}
+.lg-img.has{display:block}
+.lg-img.has + .lg-fb{display:none}
+.lg-fb{font-family:'Playfair Display',serif;color:var(--pink);font-size:calc(var(--lh,52px)*.8);line-height:1}
+.lg .c{font-size:calc(var(--lh,52px)*.115);letter-spacing:.3em;color:var(--mut);margin-top:calc(var(--lh,52px)*.08);white-space:nowrap}
+
+/* login */
+.login{position:relative;min-height:100%;padding:8px 22px 20px}
+.login .hero{position:absolute;top:0;right:0;width:60%;height:250px;-webkit-mask-image:linear-gradient(to right,transparent,#000 45%),linear-gradient(to bottom,#000 45%,transparent);-webkit-mask-composite:source-in;mask-image:linear-gradient(to right,transparent,#000 45%),linear-gradient(to bottom,#000 45%,transparent);-webkit-mask-composite:source-in, xor;mask-composite:intersect}
+.login .in{position:relative}
+.field{display:flex;align-items:center;gap:12px;height:54px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:0 14px;margin-bottom:12px;color:var(--pink)}
+.field input{border:0;outline:0;flex:1;font-size:14px;color:var(--ink);background:none;min-width:0}
+.field input::-moz-placeholder{color:#AC97A1}
+.field input::placeholder{color:#AC97A1}
+.tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:18px 0 12px}
+.tile{background:#fff;border:1px solid var(--line);border-radius:16px;padding:12px 4px 10px;text-align:center;font-size:11px;font-weight:600;color:var(--ink);display:flex;flex-direction:column;align-items:center;gap:6px;line-height:1.2}
+.tile .ic{color:var(--pink);width:26px;height:26px}
+.secure{display:flex;gap:12px;align-items:center;padding:14px;margin-bottom:6px}
+.secure .ic{width:34px;height:34px;color:var(--pink)}
+
+/* dashboard */
+.rev{position:relative;padding:18px;margin:6px 18px 14px;overflow:hidden;min-height:150px}
+.rev .art{position:absolute;right:0;top:0;bottom:0;width:48%;-webkit-mask-image:linear-gradient(to right,transparent,#000 45%);mask-image:linear-gradient(to right,transparent,#000 45%)}
+.rev .amt{font-size:30px;font-weight:700;letter-spacing:-.02em;margin:6px 0 2px;position:relative}
+.up{color:var(--green);font-weight:600;font-size:12px;position:relative}
+.kpi{display:flex;align-items:center;gap:12px;padding:14px 16px;border-bottom:1px solid var(--line);width:100%;text-align:left}
+.kpi:last-child{border:0}
+.kpi .ico{width:36px;height:36px;border-radius:12px;background:var(--blush);color:var(--pink);display:grid;place-items:center}
+.kpi b{font-size:17px}
+.glance{display:grid;grid-template-columns:repeat(3,1fr);gap:0}
+.glance>div{padding:6px 10px;border-right:1px solid var(--line);font-size:12px}
+.glance>div:last-child{border:0}
+.glance .t{color:var(--mut);display:flex;align-items:center;gap:6px;margin:6px 0 6px}
+.spark{width:100%;height:26px}
+.strip{display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:16px;margin:0 18px 10px;width:calc(100% - 36px);text-align:left}
+
+/* bookings */
+.days{display:flex;gap:6px;align-items:center}
+.day{flex:1;text-align:center;border-radius:14px;padding:8px 0;font-size:12px;color:var(--mut);background:transparent;border:1px solid transparent}
+.day b{display:block;font-size:14px;color:var(--ink);margin-top:2px}
+.day.on{background:#fff;border-color:var(--pink-l);color:var(--pink);box-shadow:0 8px 16px -10px var(--pink)}
+.day.on b{color:var(--pink)}
+.journey{display:flex;justify-content:space-between;padding:14px 10px 4px;position:relative}
+.journey>div{text-align:center;font-size:11px;color:var(--mut);flex:1}
+.journey .j{width:38px;height:38px;border-radius:50%;margin:0 auto 6px;display:grid;place-items:center;background:var(--blush);color:var(--pink)}
+.journey b{display:block;font-size:20px;margin-top:2px}
+.appt{display:flex;align-items:center;gap:12px;padding:14px;width:100%;text-align:left;border-bottom:1px solid var(--line);background:none}
+.appt:last-child{border:0}
+.appt{gap:10px;padding:14px 12px}.appt .tm{width:38px;font-weight:700;font-size:15px;line-height:1.1}
+.appt .tm small{display:block;font-size:10px;color:var(--mut);font-weight:500}
+.appt b{font-size:15px}.appt .tx{overflow:hidden;white-space:nowrap;text-overflow:ellipsis;display:block}.appt .pill{height:22px;font-size:10px;padding:0 8px}
+.stats3{display:grid;grid-template-columns:repeat(3,1fr);margin:14px 18px}
+.stats3>div{display:flex;gap:8px;align-items:center;font-size:11px;color:var(--mut);padding:12px 10px}
+.stats3 b{font-size:17px;color:var(--ink);display:block}
+
+/* detail */
+.dhead{display:flex;gap:12px;align-items:center;padding:14px;margin:0 18px 12px;background:linear-gradient(135deg,#FFE3EC,#fff)}
+.kv{display:flex;gap:10px;align-items:flex-start;font-size:13px;padding:7px 0;color:#4B3A43}
+.kv .ic{width:16px;height:16px;color:var(--pink);margin-top:2px}
+.kv span.k{color:var(--mut);width:118px;flex:none}
+.kv span.v{flex:1;text-align:right;font-weight:500}
+.kv.left span.v{text-align:left}
+.block{padding:14px 16px;margin:0 18px 12px}
+.block h4{margin:0 0 6px;font-size:15px;display:flex;align-items:center;gap:8px}
+.block h4 .ic{color:var(--pink);width:18px;height:18px}
+.block h4 a{margin-left:auto;font-size:12px;color:var(--pink);font-weight:600}
+.acts{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:6px}
+.act{border:1px solid var(--line);border-radius:14px;padding:12px 4px;text-align:center;font-size:11px;font-weight:700;display:flex;flex-direction:column;align-items:center;gap:6px;color:var(--pink);background:var(--blush2);line-height:1.15}
+.act small{display:block;color:var(--mut);font-weight:400;font-size:9.5px}
+.act.pri{background:var(--pink);color:#fff;border-color:var(--pink)}
+.act.pri small{color:#FFD9E5}
+.act:disabled{opacity:.4;pointer-events:none}
+
+/* profile */
+.tabs{display:flex;gap:8px;margin:0 18px 12px;overflow:auto;scrollbar-width:none}
+.tabs button{padding:10px 14px;border-radius:12px;font-size:12px;font-weight:600;white-space:nowrap;border:1px solid var(--line);background:#fff;color:#6E5A64}
+.tabs button.on{background:var(--pink);color:#fff;border-color:var(--pink)}
+.mini{display:grid;grid-template-columns:repeat(4,1fr);text-align:center;padding:12px 4px;margin:0 18px 12px}
+.mini b{display:block;font-size:15px;margin:3px 0 1px}
+.mini small{font-size:10px;color:var(--mut)}
+.hist{display:flex;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line);width:100%;text-align:left}
+.hist:last-child{border:0}
+.dt{width:42px;text-align:center;color:var(--pink);font-weight:700;font-size:17px;line-height:1.1}
+.dt small{display:block;font-size:10px;color:var(--mut);font-weight:500}
+.ck{display:flex;gap:8px;font-size:12.5px;padding:4px 0;color:#4B3A43}.ck .ic{width:15px;height:15px;color:var(--pink);margin-top:2px}
+.actrow{display:grid;grid-template-columns:1.3fr 1fr 1fr 1fr;gap:8px;margin:0 18px 6px}
+.actrow .btn{height:44px;font-size:13px;gap:6px;border-radius:12px}
+
+/* new booking */
+.stepper{display:flex;justify-content:space-between;padding:10px 20px 4px;position:relative}
+.stepper>div{text-align:center;font-size:10px;color:var(--mut);flex:1;position:relative}
+.stepper i{display:grid;place-items:center;width:24px;height:24px;border-radius:50%;margin:0 auto 4px;font-style:normal;font-size:12px;font-weight:700;background:#F3E6EB;color:#8C7681}
+.stepper .on i{background:var(--pink);color:#fff}
+.stepper .on{color:var(--pink);font-weight:700}
+.nsec{padding:14px;margin:0 18px 12px}
+.nsec .top{display:flex;gap:10px;align-items:center;margin-bottom:10px}
+.nsec .n{width:24px;height:24px;border-radius:50%;background:var(--pink);color:#fff;display:grid;place-items:center;font-size:12px;font-weight:700;flex:none}
+.nsec h5{margin:0;font-size:15px}.nsec small{color:var(--mut);font-size:11.5px}
+.sel{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:10px;border-radius:14px;border:1px solid var(--line);background:var(--blush2)}
+.chips{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;margin-bottom:10px}
+.chip{border:1px solid var(--line);border-radius:12px;background:#fff;padding:7px 0;text-align:center;font-size:10px;color:var(--mut)}
+.chip b{display:block;font-size:14px;color:var(--ink)}
+.chip.on{background:var(--pink);border-color:var(--pink);color:#FFD9E5}.chip.on b{color:#fff}
+.times{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.time{border:1px solid var(--line);border-radius:12px;padding:10px 0;text-align:center;font-size:12.5px;font-weight:600;background:#fff}
+.time.on{background:var(--blush);border-color:var(--pink);color:var(--pink)}
+.notes{width:100%;border:1px solid var(--line);border-radius:14px;padding:12px;font-size:13px;min-height:64px;resize:none;outline:0;background:var(--blush2);font-family:inherit}
+.pay2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.payo{border:1.5px solid var(--line);border-radius:14px;padding:12px;font-size:12px;text-align:left;position:relative;background:#fff}
+.payo b{display:block;font-size:13px;margin:6px 0 2px}.payo small{color:var(--mut);font-size:10.5px}
+.payo.on{border-color:var(--pink);background:var(--blush2)}
+.payo.on::after{content:"";position:absolute;right:10px;top:10px;width:14px;height:14px;border-radius:50%;background:radial-gradient(var(--pink) 4px,#fff 5px);border:1.5px solid var(--pink)}
+.stick{position:sticky;bottom:0;padding:12px 18px 18px;background:linear-gradient(transparent,#fff 30%)}
+
+/* done */
+.done{padding:20px 18px 24px;text-align:center;position:relative}
+.done .okc{width:78px;height:78px;border-radius:50%;background:var(--pink);color:#fff;display:grid;place-items:center;margin:26px auto 10px;box-shadow:0 0 0 10px #FDE0EA,0 0 0 22px #FFF0F5}
+.done .okc .ic{width:38px;height:38px;stroke-width:2.6}
+.done h1{font-family:var(--serif);font-size:30px;margin:26px 0 6px}
+.conf{padding:16px;text-align:left;margin-top:18px}
+.jlist{position:relative;padding-left:26px;margin-top:6px}
+.jlist div{position:relative;padding-bottom:14px;font-size:13px}
+.jlist div small{display:block;color:var(--mut);font-size:11.5px}
+.jlist div::before{content:"";position:absolute;left:-26px;top:2px;width:14px;height:14px;border-radius:50%;border:1.5px solid #D9C6CE;background:#fff}
+.jlist div.on::before{background:var(--pink);border-color:var(--pink)}
+.jlist div::after{content:"";position:absolute;left:-19.5px;top:18px;bottom:0;width:1px;background:#EBD6DE}
+.jlist div:last-child::after{display:none}
+.help{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:8px}
+.help button{background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px 2px;font-size:10.5px;font-weight:600;display:flex;flex-direction:column;align-items:center;gap:6px;color:var(--ink)}
+.help .ic{color:var(--pink)}
+
+/* sales + staff */
+.utabs{display:flex;gap:18px;padding:0 18px;border-bottom:1px solid var(--line);margin-bottom:12px;overflow:auto;scrollbar-width:none}
+.utabs button{padding:8px 0 10px;font-size:13px;color:var(--mut);font-weight:600;border-bottom:2px solid transparent;white-space:nowrap}
+.utabs button.on{color:var(--pink);border-color:var(--pink)}
+.pc{position:relative;overflow:hidden;padding:16px;margin:0 18px 12px;min-height:160px}
+.pc .art{position:absolute;right:6px;top:10px;width:44%;height:136px;border-radius:16px}.pc .art.cut.has{background-position:center}
+.live{display:flex;align-items:center;gap:10px;padding:9px 0;font-size:12.5px;border-bottom:1px solid #FBEAF0}
+.live:last-child{border:0}
+.tag{font-size:10px;padding:3px 8px;border-radius:99px;background:var(--blush);color:var(--pink);font-weight:600}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0 18px 12px}
+.two .card{padding:12px}
+.donut{width:104px;height:104px;border-radius:50%;margin:8px auto;position:relative;background:conic-gradient(var(--pink) 0 57.8%,#8F6BDB 57.8% 80.2%,#F6B9CD 80.2% 100%)}
+.donut::after{content:"Total\A ₦1.28M";white-space:pre;position:absolute;inset:20px;background:#fff;border-radius:50%;display:grid;place-items:center;text-align:center;font-size:9.5px;font-weight:700;color:var(--mut);line-height:1.3}
+.sm td,.sm th{font-size:11px;padding:6px 0}
+.sm{width:100%;border-collapse:collapse}.sm td:last-child,.sm th:last-child{text-align:right}
+.sm tr{border-bottom:1px solid #FBEAF0}.sm th{color:var(--mut);font-weight:600;text-align:left}
+.bar{height:5px;border-radius:5px;background:#F8DCE6;margin-top:4px;overflow:hidden}.bar i{display:block;height:100%;background:var(--pink);border-radius:5px}
+.sum4{display:grid;grid-template-columns:repeat(4,1fr);text-align:center;padding:14px 6px;margin:0 18px 12px}
+.sum4 .t{font-size:11px;color:var(--mut)}.sum4 b{font-size:20px;display:block}
+.ring{width:66px;height:66px;border-radius:50%;margin:8px auto 6px;display:grid;place-items:center;position:relative;background:conic-gradient(var(--c) calc(var(--p)*1%),#F4E3EA 0)}
+.ring::before{content:"";position:absolute;inset:7px;background:#fff;border-radius:50%}
+.ring b{position:relative;font-size:15px}
+.eod{position:relative;overflow:hidden;padding:14px;margin:0 18px 12px}
+.lb{width:100%;border-collapse:collapse;font-size:11.5px}
+.lb th{font-size:10px;color:var(--mut);text-align:left;padding:6px 0;font-weight:600}
+.lb td:nth-child(n+3){white-space:nowrap}.lb td{padding:9px 4px 9px 0;border-top:1px solid #FBEAF0;vertical-align:middle}
+.lb tr{cursor:pointer}
+.rk{width:20px;height:20px;border-radius:50%;display:inline-grid;place-items:center;font-size:10px;font-weight:700;color:#fff;background:#E9A23B}
+.act-s{font-size:10px;padding:3px 7px;border-radius:99px;font-weight:700;background:#E2F5EA;color:var(--green)}
+.act-s.br{background:#FFF1D8;color:#B77508}
+
+@media(max-width:940px){.side{display:none}}
+@media(max-width:520px){
+  body{display:block;overflow:auto}
+  .stage{padding:0;display:block}
+  .phone{width:100vw;height:100dvh;border:0;border-radius:0;box-shadow:none}
+  .phone::before,.status{display:none}
+  .view{top:0;padding-top:env(safe-area-inset-top)}
+}
+</style>
+</head>
+<body>
+<div class="stage">
+  <aside class="side">
+    <div class="eyebrow">Interactive preview</div>
+    <h1>Nails &amp; Hair <em>Lov'n</em></h1>
+    <p>The salon's business app: bookings, customers, sales and staff in one place. Tap around the phone to try it.</p>
+    <div class="jump" id="jump"></div>
+    <p style="font-size:13px"><b style="color:var(--ink)">Try this:</b> log in, open Folake's 12:00 PM booking, tap <b style="color:var(--pink)">Check In</b>, then use the <b style="color:var(--pink)">+</b> on Bookings to create a new appointment.</p>
+    <div class="credit">Concept by <b>Satoshi Communications</b></div>
+  </aside>
+  <div class="phone" id="phone">
+    <div class="status"><span>9:41</span><span style="display:flex;gap:6px;align-items:center">
+      <svg viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="15" width="3" height="6" rx="1"/><rect x="7" y="11" width="3" height="10" rx="1"/><rect x="12" y="7" width="3" height="14" rx="1"/><rect x="17" y="3" width="3" height="18" rx="1"/></svg>
+      <svg viewBox="0 0 28 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" style="width:24px"><path d="M2 9a17 17 0 0124 0M6 13.5a11 11 0 0116 0M10 18a5 5 0 018 0"/></svg>
+      <svg viewBox="0 0 30 24" style="width:28px"><rect x="1" y="6" width="24" height="12" rx="3.5" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="3" y="8" width="18" height="8" rx="2" fill="currentColor"/><rect x="26" y="10" width="2.5" height="4" rx="1" fill="currentColor"/></svg></span></div>
+    <div class="view" id="view"></div>
+    <nav class="nav" id="nav" hidden></nav>
+    <div class="scrim" id="scrim"></div>
+    <div class="sheet" id="sheet"></div>
+    <div class="toast" id="toast"></div>
+  </div>
+</div>
+
+<script>
+/* ---------- icons ---------- */
+const P=d=>`<path d="${d}"/>`;
+const I={
+menu:P('M4 7h16M4 12h16M4 17h10'),bell:P('M6 16v-5a6 6 0 1112 0v5l2 2H4zM10 21a2 2 0 004 0'),
+back:P('M15 6l-6 6 6 6'),chevR:P('M9 6l6 6-6 6'),chevD:P('M6 9l6 6 6-6'),plus:P('M12 5v14M5 12h14'),
+check:P('M5 12.5l4.5 4.5L19 7'),x:P('M6 6l12 12M18 6L6 18'),
+cal:P('M5 5h14a1 1 0 011 1v13a1 1 0 01-1 1H5a1 1 0 01-1-1V6a1 1 0 011-1zM4 10h16M8 3v4M16 3v4'),
+home:P('M4 11l8-7 8 7v8a1 1 0 01-1 1h-4v-6H9v6H5a1 1 0 01-1-1z'),
+user:P('M12 12a4 4 0 100-8 4 4 0 000 8zM4 20c0-4 4-6 8-6s8 2 8 6'),
+users:P('M9 12a3.5 3.5 0 100-7 3.5 3.5 0 000 7zM2.5 20c0-3.5 3-5 6.5-5s6.5 1.5 6.5 5M16 5.5a3.5 3.5 0 010 7M18 15c2.5.5 3.5 2 3.5 5'),
+card:P('M3 6h18v12H3zM3 10h18M7 15h4'),dots:'<circle cx="5" cy="12" r="1.2"/><circle cx="12" cy="12" r="1.2"/><circle cx="19" cy="12" r="1.2"/>',
+phone:P('M5 4h4l2 5-2.5 1.5a11 11 0 005 5L15 13l5 2v4a1 1 0 01-1 1A15 15 0 014 5a1 1 0 011-1z'),
+mail:P('M3 6h18v12H3zM3 7l9 7 9-7'),pin:P('M12 21s7-6 7-11a7 7 0 10-14 0c0 5 7 11 7 11zM12 12a2 2 0 100-4 2 2 0 000 4z'),
+star:'<path fill="currentColor" stroke="none" d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/>',
+msg:P('M4 5h16v11H9l-5 4z'),search:P('M11 18a7 7 0 100-14 7 7 0 000 14zM20 20l-4-4'),lock:P('M6 11h12v9H6zM8 11V8a4 4 0 018 0v3'),
+shield:P('M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6zM9 12l2 2 4-4'),trend:P('M3 17l6-6 4 4 8-8M15 7h6v6'),
+filter:P('M4 6h16M7 12h10M10 18h4'),box:P('M12 3l8 4v10l-8 4-8-4V7zM4 7l8 4 8-4M12 11v10'),alert:P('M12 4l9 16H3zM12 10v4M12 17h.01'),
+clock:P('M12 21a9 9 0 100-18 9 9 0 000 18zM12 7v5l3 2'),flag:P('M5 21V4M5 4h11l-2 4 2 4H5'),download:P('M12 4v11M7 10l5 5 5-5M5 20h14'),
+crown:P('M3 8l4 4 5-7 5 7 4-4-2 11H5z'),scis:P('M6 9a3 3 0 100-6 3 3 0 000 6zM6 21a3 3 0 100-6 3 3 0 000 6zM8.5 7.5L20 19M8.5 16.5L20 5'),
+note:P('M6 3h12v18l-3-2-3 2-3-2-3 2zM9 8h6M9 12h6'),tag:P('M3 12V4h8l10 10-8 8zM8 8h.01'),heart:P('M12 20s-8-5-8-11a4.5 4.5 0 018-2.5A4.5 4.5 0 0120 9c0 6-8 11-8 11z'),
+walk:P('M13 4a1.5 1.5 0 100 .01M9 21l2-6-2-2 1-5 4 2 2 3M7 12l2-4'),face:P('M4 8V6a2 2 0 012-2h2M16 4h2a2 2 0 012 2v2M20 16v2a2 2 0 01-2 2h-2M8 20H6a2 2 0 01-2-2v-2M9 10v1M15 10v1M9 15c1.5 1.5 4.5 1.5 6 0'),
+eyeoff:P('M3 12s3.5-6 9-6 9 6 9 6-3.5 6-9 6-9-6-9-6zM12 14.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM4 4l16 16'),logout:P('M10 4H5v16h5M15 8l4 4-4 4M19 12H9'),
+grid:P('M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z'),chart:P('M5 20V10M12 20V4M19 20v-7')
+};
+const ic=(n,c='')=>`<svg class="ic ${c}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${I[n]}</svg>`;
+
+/* ---------- image slots: assets/<name>.(jpg|png|webp) ---------- */
+const EXT=['jpg','png','webp','jpeg'],CACHE={};
+function resolve(base){
+  if(base in CACHE) return CACHE[base];
+  return CACHE[base]=new Promise(res=>{
+    let i=0;(function next(){
+      if(i>=EXT.length) return res(null);
+      const u=`${base}.${EXT[i++]}`,im=new Image();
+      im.onload=()=>res(u);im.onerror=next;im.src=u;
+    })();
+  });
+}
+function hydrate(root=document){
+  root.querySelectorAll('[data-img]:not(.has)').forEach(el=>{
+    resolve(el.dataset.img).then(u=>{if(u){el.style.backgroundImage=`url("${u}")`;el.classList.add('has')}});
+  });
+}
+const slot=(name,cls='',style='')=>`<div class="im ${cls}" data-slot="${name}" data-img="assets/${name}" style="${style}"></div>`;
+const ini=n=>n.trim()[0].toUpperCase();
+const av=(key,name,s=44)=>`<i class="av" data-img="assets/avatars/${key}" style="width:${s}px;height:${s}px;font-size:${Math.round(s*.4)}px">${ini(name)}</i>`;
+const logo=(h=52)=>`<span class="lg" style="--lh:${h}px"><span class="a">Nails &amp; Hair</span><span class="lg-img" data-img="assets/logo"></span><span class="lg-fb">Lov'n</span><span class="c">BEAUTY. CONFIDENCE. YOU.</span></span>`;
+const built=()=>`<div class="built">Built by <b>Satoshi Communications</b><i>SOFTWARE SOLUTIONS FOR AFRICAN BUSINESSES</i></div>`;
+const naira=n=>'₦'+n.toLocaleString('en-NG');
+
+/* ---------- data ---------- */
+const DAYS=[['Today','Tuesday',20],['Wed','Wednesday',21],['Thu','Thursday',22],['Fri','Friday',23],['Sat','Saturday',24],['Sun','Sunday',25],['Mon','Monday',26]];
+const SERVICES=[
+ {n:'Knotless Braids',p:35000,d:'3 hrs 30 mins',s:'svc-braids',by:'Ibhade'},
+ {n:'Gel Manicure',p:18000,d:'1 hr 30 mins',s:'svc-gel',by:'Caramel'},
+ {n:'Hair Treatment',p:8000,d:'2 hrs',s:'svc-hair',by:'Titi'},
+ {n:'Acrylic Full Set',p:22000,d:'2 hrs',s:'svc-acrylic',by:'Caramel'}];
+const SLOT_OF={'Knotless Braids':'svc-braids','Gel Manicure':'svc-gel','Hair Treatment':'svc-hair','Acrylic Full Set':'svc-acrylic'};
+const SPECS=[{k:'ibhade',n:'Ibhade',r:'Senior Hair Specialist',s:'4.9 (128 reviews)'},{k:'caramel',n:'Caramel',r:'Nails Expert',s:'4.8 (96 reviews)'},{k:'titi',n:'Titi',r:'Hair & Nails',s:'4.9 (110 reviews)'},{k:'bola',n:'Bola',r:'Braids Specialist',s:'4.8 (87 reviews)'}];
+const TIMES=['09:00 AM','10:30 AM','12:00 PM','02:30 PM','04:00 PM','05:30 PM'];
+const CUST={
+ sandra:{n:'Sandra',ph:'+234 803 123 4567',em:'sandra@email.com',loc:'Lekki, Lagos',since:'Mar 2024',tier:'Elite Member',v:8,sp:246000,r:4.9,last:'12 Jul 2026',id:'sandra'},
+ adaeze:{n:'Adaeze',ph:'+234 806 555 0182',em:'adaeze@email.com',loc:'Ikeja, Lagos',since:'Jan 2025',tier:'Regular',v:5,sp:128000,r:4.8,last:'09 Jul 2026',id:'adaeze'},
+ folake:{n:'Folake',ph:'+234 809 441 2290',em:'folake@email.com',loc:'Yaba, Lagos',since:'Aug 2024',tier:'Elite Member',v:6,sp:164500,r:4.9,last:'05 Jul 2026',id:'folake'},
+ chioma:{n:'Chioma',ph:'+234 816 335 1208',em:'chioma@email.com',loc:'Lekki, Lagos',since:'Sep 2025',tier:'Regular',v:3,sp:52500,r:4.7,last:'01 Jul 2026',id:'chioma'},
+ amaka:{n:'Amaka',ph:'+234 805 118 3376',em:'amaka@email.com',loc:'Ajah, Lagos',since:'Feb 2026',tier:'New',v:2,sp:40000,r:4.8,last:'28 Jun 2026',id:'amaka'},
+ zainab:{n:'Zainab',ph:'+234 807 902 6641',em:'zainab@email.com',loc:'VI, Lagos',since:'Apr 2025',tier:'Regular',v:3,sp:61500,r:4.6,last:'30 Jun 2026',id:'zainab'},
+ funke:{n:'Funke',ph:'+234 813 224 7790',em:'funke@email.com',loc:'Surulere, Lagos',since:'Jun 2025',tier:'Elite Member',v:7,sp:188000,r:4.9,last:'06 Jul 2026',id:'funke'},
+ bisi:{n:'Bisi',ph:'+234 802 770 9134',em:'bisi@email.com',loc:'Lekki, Lagos',since:'Nov 2024',tier:'Regular',v:4,sp:96000,r:4.7,last:'02 Jul 2026',id:'bisi'}};
+let SEQ=28491;
+const mk=(c,t,sv,by,st,note,day=0,pay='Paid')=>({id:'b'+(SEQ),ref:'#NHL-'+(SEQ++),c,t,sv:sv[0],p:sv[1],d:sv[2],by,st,note,day,pay,method:'Bank Transfer',tx:'BT-'+(7293849021+SEQ)});
+const SV={kb:['Knotless Braids',35000,'3 hrs 30 mins'],gm:['Gel Manicure',18000,'1 hr 30 mins'],ht:['Hair Treatment',8000,'2 hrs'],af:['Acrylic Full Set',22000,'2 hrs'],sp:['Silk Press',25000,'2 hrs 30 mins'],pd:['Pedicure',12500,'1 hr'],le:['Lash Extensions',20000,'1 hr 30 mins'],eb:['Eyebrow Shaping',5000,'30 mins']};
+const S={user:'Tomi',screen:'login',hist:[],day:0,exp:false,sel:null,cust:'sandra',ptab:0,ntab:'',draft:null,more:false,bookings:[]};
+(function seed(){
+  const N='Long length, natural black. Customer prefers mid-size braids.';
+  S.bookings=[
+   mk('adaeze','09:00 AM',SV.gm,'Caramel','Completed','Prefers a short square shape. Brings her own polish.'),
+   mk('sandra','10:30 AM',SV.kb,'Ibhade','Checked in',N),
+   mk('folake','12:00 PM',SV.ht,'Ibhade','Confirmed','Dry scalp, use the gentle treatment.'),
+   mk('chioma','02:30 PM',SV.af,'Caramel','Confirmed','Almond shape, nude pink.'),
+   mk('amaka','03:00 PM',SV.le,'Titi','Confirmed','First lash appointment.'),
+   mk('zainab','04:00 PM',SV.eb,'Titi','Confirmed','Light shaping only.'),
+   mk('funke','04:30 PM',SV.sp,'Bola','Confirmed','Wash and silk press, no trim.'),
+   mk('bisi','05:30 PM',SV.pd,'Caramel','Confirmed','Gel polish, soft peach.')];
+  S.bookings.find(b=>b.c==='sandra').ref='#NHL-28491';
+  const keys=Object.keys(SV),cs=Object.keys(CUST),T=['10:00 AM','12:30 PM','03:00 PM'];
+  for(let d=1;d<7;d++)[0,1,2].forEach(i=>{
+    const sv=SV[keys[(d*2+i*3)%keys.length]],c=cs[(d+i*2)%cs.length],by=SPECS[(d+i)%4].n;
+    S.bookings.push(mk(c,T[i],sv,by,'Confirmed','',d,i==1?'Pending':'Paid'));
+  });
+})();
+const mins=t=>{let[m,ap]=t.split(' '),[h,mm]=m.split(':').map(Number);if(ap==='PM'&&h!==12)h+=12;if(ap==='AM'&&h===12)h=0;return h*60+mm};
+const byDay=d=>S.bookings.filter(b=>b.day===d).sort((a,b)=>mins(a.t)-mins(b.t));
+const get=id=>S.bookings.find(b=>b.id===id);
+const newDraft=(c='sandra')=>({c,sv:SERVICES[0],sp:SPECS[0],day:0,t:TIMES[1],note:'',pay:'salon'});
+
+/* ---------- small components ---------- */
+const stClass=s=>s==='Checked in'?'Checked':s==='In service'?'Service':s;
+const pill=s=>`<span class="pill ${stClass(s)}">${s==='Confirmed'?ic('check').replace('class="ic ','style="width:12px;height:12px" class="ic '):''}${s}</span>`;
+const svcThumb=(name,w=64,h=64,r=14)=>SLOT_OF[name]?slot(SLOT_OF[name],'',`width:${w}px;height:${h}px;border-radius:${r}px`):`<div class="im" style="width:${w}px;height:${h}px;border-radius:${r}px;display:grid;place-items:center;color:var(--pink)">${ic('scis')}</div>`;
+const spark=(d,c='#E8316F')=>`<svg class="spark" viewBox="0 0 100 26" preserveAspectRatio="none"><polyline points="${d}" fill="none" stroke="${c}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"/></svg>`;
+const hdr=(title,sub,right='')=>`<div class="hdr"><button class="round" data-a="back">${ic('back')}</button><div class="grow"><h2>${title}</h2>${sub?`<small>${sub}</small>`:''}</div>${right}</div>`;
+const navHTML=on=>[['dash','home','Home'],['bookings','cal','Bookings'],['sales','card','Sales'],['staff','users','Staff'],['more','dots','More']]
+  .map(([k,i,l])=>`<button class="${on===k?'on':''}" data-a="${k==='more'?'more':'go'}" data-v="${k}">${ic(i)}${l}</button>`).join('');
+
+/* ---------- screens ---------- */
+const R={};
+R.login=()=>({html:`<div class="login">
+  ${slot('login-hero','hero big')}
+  <div class="in">
+   <div style="margin:10px 0 0">${logo(70)}</div>
+   <div style="font-size:11px;letter-spacing:.3em;color:var(--mut);margin:6px 0 34px">BUSINESS MANAGEMENT</div>
+   <h1 class="h1" style="font-size:34px;margin-top:70px">Welcome Back</h1>
+   <p class="mut" style="font-size:13.5px;line-height:1.5;margin:8px 0 18px;max-width:300px">Log in to manage your salon, bookings, payments, staff and more.</p>
+   <label class="field">${ic('mail')}<input placeholder="Email or Phone Number" value="tomi@nailsandhairlovn.com"></label>
+   <label class="field">${ic('lock')}<input type="password" placeholder="Password" value="••••••••"><span class="mut">${ic('eyeoff')}</span></label>
+   <div class="row" style="justify-content:space-between;font-size:12.5px;margin:2px 2px 16px"><span class="row" style="gap:8px"><i style="width:18px;height:18px;background:var(--pink);border-radius:5px;display:grid;place-items:center;color:#fff">${ic('check').replace('class="ic ','style="width:13px;height:13px;stroke-width:3" class="ic ')}</i>Remember me</span><a style="color:var(--pink);text-decoration:underline" data-a="toast" data-v="Password reset is part of the full build">Forgot password?</a></div>
+   <button class="btn" data-a="login">Log In ${ic('chevR')}</button>
+   <div class="row mut" style="gap:12px;font-size:12px;margin:14px 0"><i class="grow" style="height:1px;background:var(--line)"></i>OR<i class="grow" style="height:1px;background:var(--line)"></i></div>
+   <button class="btn line" data-a="login">${ic('face')} Log in with Face ID</button>
+   <p class="mut" style="text-align:center;font-size:12.5px;margin:14px 0 0">Don't have an account? <a class="pink" style="text-decoration:underline" data-a="toast" data-v="Ask your admin to invite you">Contact Admin</a></p>
+   <div class="tiles">
+     <div class="tile">${ic('cal')}Manage Bookings</div><div class="tile">${ic('chart')}Track Sales</div><div class="tile">${ic('users')}Support Your Team</div><div class="tile">${ic('box')}Control Inventory</div></div>
+   <div class="card secure">${ic('shield')}<div><b style="font-size:14px">Secure. Simple. Reliable.</b><div class="mut" style="font-size:12px">Your business data is safe with us.</div></div></div>
+   ${built()}
+  </div></div>`});
+
+R.dash=()=>({nav:'dash',html:`
+  <div class="hdr" style="padding-top:8px"><div class="grow"><h1 class="h1" style="font-size:25px">Welcome ${S.user}</h1><div class="mut" style="font-size:13px;margin-top:2px;display:flex;gap:4px;align-items:center">Lagos Branch ${ic('chevD').replace('class="ic ','style="width:14px;height:14px" class="ic ')}</div></div>
+   <button class="round" data-a="toast" data-v="No new notifications">${ic('bell')}</button>${av('tomi','Tomi',42)}</div>
+  <button class="card rev" style="display:block;text-align:left;width:calc(100% - 36px)" data-a="go" data-v="sales">
+    ${slot('dash-art','art big cut')}
+    <div class="mut" style="font-size:12px;position:relative">TODAY'S REVENUE</div>
+    <div class="amt">₦1,284,500</div><div class="up">${ic('trend').replace('class="ic ','style="width:13px;height:13px;vertical-align:-2px" class="ic ')} 14.8% <span class="mut" style="font-weight:400">vs yesterday</span></div>
+  </button>
+  <div class="card" style="margin:0 18px 14px">
+    <button class="kpi" data-a="go" data-v="bookings"><span class="ico">${ic('users')}</span><span class="grow">Customers served</span><b>32</b>${ic('chevR','mut')}</button>
+    <button class="kpi" data-a="go" data-v="bookings"><span class="ico">${ic('cal')}</span><span class="grow">Bookings</span><b>21</b>${ic('chevR','mut')}</button>
+    <button class="kpi" data-a="go" data-v="bookings"><span class="ico">${ic('walk')}</span><span class="grow">Walk-ins</span><b>11</b>${ic('chevR','mut')}</button>
+    <button class="kpi" data-a="go" data-v="staff"><span class="ico">${ic('user')}</span><span class="grow">Staff present</span><b>8 / 9</b>${ic('chevR','mut')}</button>
+  </div>
+  <div class="card" style="margin:0 18px 14px;padding:14px 8px 10px">
+    <div class="row" style="padding:0 8px 8px"><b class="grow">Today at a glance</b>${ic('chevD','mut')}</div>
+    <div class="glance">
+      <div><div class="t">${ic('card').replace('class="ic ','style="width:15px;height:15px" class="ic ')}Revenue</div><b class="pink" style="font-size:13px">₦1,284,500</b>${spark('0,22 18,18 34,20 52,12 70,14 100,3')}</div>
+      <div><div class="t">${ic('cal').replace('class="ic ','style="width:15px;height:15px" class="ic ')}Appointments</div><b class="pink" style="font-size:13px">21 booked</b><div class="mut" style="font-size:10.5px">18 completed</div>${spark('0,20 20,16 40,18 60,10 100,6')}</div>
+      <div><div class="t">${ic('users').replace('class="ic ','style="width:15px;height:15px" class="ic ')}Walk-ins</div><b class="pink" style="font-size:13px">11 checked in</b>${spark('0,18 25,20 45,12 70,14 100,4')}</div>
+    </div></div>
+  <button class="card strip" data-a="go" data-v="bookings"><span class="kpi" style="border:0;padding:0;width:auto"><span class="ico">${ic('chart')}</span></span><span class="grow"><b style="font-size:14px">View today's activity</b><div class="mut" style="font-size:12px">See all bookings, walk-ins and more</div></span><span class="round pk" style="width:30px;height:30px">${ic('plus')}</span></button>
+  <button class="card strip" style="background:#FFF8EC;border-color:#F8E3BE" data-a="go" data-v="inventory"><span class="kpi" style="border:0;padding:0;width:auto"><span class="ico" style="background:#FFF1D8;color:var(--amber)">${ic('alert')}</span></span><span class="grow"><b style="font-size:14px">Needs your attention</b><div class="mut" style="font-size:12px">${need()} low stock item${need()==1?'':'s'}</div></span><span class="pill" style="background:#FFE7B8;color:#9A6200">${need()}</span>${ic('chevR','mut')}</button>
+  <div style="height:8px"></div>`});
+
+R.bookings=()=>{
+  const list=byDay(S.day),show=(S.day===0&&!S.exp)?list.slice(0,4):list,more=list.length-4;
+  return{nav:'bookings',html:`
+  <div class="hdr" style="align-items:flex-start;padding-top:10px"><div class="grow"><h1 class="h1" style="font-size:28px">Bookings</h1><div class="mut" style="font-size:13px;margin-top:4px">Stay on top of every appointment</div></div>
+    <button class="round" data-a="toast" data-v="No new notifications">${ic('bell')}</button><button class="round pk" data-a="newb">${ic('plus')}</button></div>
+  <div class="days pad" style="margin-bottom:12px">${DAYS.slice(0,5).map((d,i)=>`<button class="day ${S.day===i?'on':''}" data-a="day" data-v="${i}">${d[0]}<b>${d[2]} Jul</b></button>`).join('')}
+    <button class="round" style="width:38px;height:38px" data-a="toast" data-v="Calendar view is part of the full build">${ic('cal')}</button></div>
+  <div class="card" style="margin:0 18px 14px;padding:12px 8px"><div class="row" style="padding:0 8px"><b class="grow">Customer Journey</b><a class="pink" style="font-size:12px" data-a="toast" data-v="Journey report is part of the full build">View all</a></div>
+    <div class="journey">
+      <div><div class="j">${ic('cal')}</div>Booked<b style="color:var(--pink)">21</b></div>
+      <div><div class="j" style="background:#EEE8FF;color:var(--purple)">${ic('user')}</div>Checked in<b style="color:var(--purple)">11</b></div>
+      <div><div class="j" style="background:#FFF1D8;color:var(--amber)">${ic('scis')}</div>In service<b style="color:var(--amber)">7</b></div>
+      <div><div class="j" style="background:#E2F5EA;color:var(--green)">${ic('check')}</div>Completed<b style="color:var(--green)">18</b></div>
+      <div><div class="j">${ic('card')}</div>Paid<b style="color:var(--pink)">18</b></div></div></div>
+  <div class="row pad" style="margin-bottom:8px"><b class="grow" style="font-size:16px">${S.day===0?"Today's Schedule":DAYS[S.day][1]+"'s Schedule"}</b><button class="pill" style="height:32px;background:#fff;border:1px solid var(--line);color:var(--ink);font-weight:600;font-size:12px" data-a="toast" data-v="Filters are part of the full build">${ic('filter').replace('class="ic ','style="width:14px;height:14px" class="ic ')} Filter</button></div>
+  <div class="card" style="margin:0 18px 12px">
+   ${show.map(b=>{const[tm,ap]=b.t.split(' ');return`<button class="appt" data-a="open" data-v="${b.id}">
+     <span class="tm">${tm}<small>${ap}</small></span>${av(b.c,CUST[b.c].n,42)}
+     <span class="grow"><b>${CUST[b.c].n}</b><span class="mut tx" style="font-size:12px;margin:1px 0">${b.sv}</span><span class="tx mut" style="font-size:11.5px">with ${b.by}</span></span>
+     <span style="display:flex;flex-direction:column;align-items:flex-end;gap:6px">${pill(b.st)}<b class="pink" style="font-size:12.5px">${naira(b.p)}</b></span></button>`}).join('')||`<div class="mut" style="padding:24px;text-align:center;font-size:13px">No appointments yet</div>`}
+   ${S.day===0&&more>0&&!S.exp?`<button class="appt" style="justify-content:center;color:var(--pink);font-weight:600;font-size:13px" data-a="exp">${more} more appointments ${ic('chevD')}</button>`:''}
+  </div>
+  <div class="card stats3"><div>${ic('walk','pink')}<span><b>11</b>Walk-ins Today</span></div><div style="border-left:1px solid var(--line)">${ic('users','pink')}<span><b>3</b>No-shows Today</span></div><div style="border-left:1px solid var(--line)">${ic('check','pink')}<span><b>18</b>Completed Today</span></div></div>
+  <div style="height:8px"></div>`}};
+
+R.detail=()=>{
+  const b=get(S.sel),c=CUST[b.c],D=DAYS[b.day],done=b.st==='Completed'||b.st==='Cancelled';
+  const pri=b.st==='Confirmed'?'checkin':(b.st==='Checked in'||b.st==='In service')?'complete':'';
+  return{html:`
+  ${hdr('Booking Details','View and manage appointment details',`<button class="round" data-a="toast" data-v="More options are part of the full build">${ic('dots')}</button>`)}
+  <div class="card dhead" style="flex-wrap:wrap">
+    ${av(b.c,c.n,60)}<div class="grow"><div class="row"><b style="font-size:20px;font-family:var(--serif)" class="grow">${c.n}</b>${pill(b.st)}</div>
+    <div class="mut" style="font-size:12px;margin:3px 0 6px">${b.ref}</div>${c.tier==='Elite Member'?`<span class="pill gold">${ic('crown').replace('class="ic ','style="width:12px;height:12px" class="ic ')}Elite Member</span>`:''}</div>
+    <div class="mut" style="width:100%;font-size:12px;text-align:right;margin-top:-6px">${ic('cal').replace('class="ic ','style="width:13px;height:13px;vertical-align:-2px" class="ic ')} ${D[1]}, ${D[2]} Jul 2026 · ${b.t}</div>
+  </div>
+  <div class="card block" style="padding:10px"><div class="row" style="gap:12px">${svcThumb(b.sv,60,60,14)}<div class="grow"><b>${b.sv}</b><div class="pink" style="font-weight:700;font-size:15px;margin:2px 0">${naira(b.p)}</div><div class="mut" style="font-size:12px">${b.d} · with ${b.by}</div></div></div></div>
+  <div class="card block"><h4>${ic('user')}Customer Information<a data-a="toast" data-v="Editing is part of the full build">Edit</a></h4>
+    <div class="kv left">${ic('phone')}<span class="v">${c.ph}</span></div><div class="kv left">${ic('mail')}<span class="v">${c.em}</span></div><div class="kv left">${ic('pin')}<span class="v">${c.loc}</span></div><div class="kv left">${ic('star')}<span class="v">Customer since ${c.since}</span></div></div>
+  <div class="card block"><h4>${ic('cal')}Appointment Details<a data-a="toast" data-v="Rescheduling is part of the full build">Reschedule</a></h4>
+    <div class="kv left">${ic('cal')}<span class="v">${D[1]}, ${D[2]} Jul 2026</span></div><div class="kv left">${ic('clock')}<span class="v">${b.t} (${b.d})</span></div>
+    <div class="kv left">${ic('user')}<span class="v">${b.by}</span></div><div class="kv left">${ic('pin')}<span class="v">Lagos Branch</span></div><div class="kv left">${ic('tag')}<span class="v">Booking ID: ${b.ref}</span></div>
+    ${b.note?`<div class="kv left">${ic('note')}<span class="v">Notes: ${b.note}</span></div>`:''}</div>
+  <div class="card block"><h4>${ic('card')}Payment Information<span class="pill ${b.pay==='Paid'?'Completed':'Service'}" style="margin-left:auto">${b.pay}</span></h4>
+    <div class="kv"><span class="k">Amount</span><span class="v">${naira(b.p)}</span></div><div class="kv"><span class="k">Method</span><span class="v">${b.method}</span></div>
+    <div class="kv"><span class="k">Reference</span><span class="v">${b.tx}</span></div>
+    ${b.pay==='Paid'?`<button class="btn line sm" style="margin-top:6px" data-a="toast" data-v="Receipt sent to ${c.em}">${ic('note')} View Receipt</button>`:''}</div>
+  <div class="card block"><h4>${ic('flag')}Actions</h4><div class="acts">
+    <button class="act ${pri==='checkin'?'pri':''}" ${b.st!=='Confirmed'?'disabled':''} data-a="checkin">${ic('check')}Check In<small>Mark as arrived</small></button>
+    <button class="act ${pri==='complete'?'pri':''}" ${done?'disabled':''} data-a="complete">${ic('flag')}Mark Completed<small>Finish appointment</small></button>
+    <button class="act" data-a="toast" data-v="Message sent to ${c.n}">${ic('msg')}Message<small>Chat with customer</small></button>
+    <button class="act" ${done?'disabled':''} data-a="cancel">${ic('x')}Cancel Booking<small>Cancel appointment</small></button></div></div>
+  <div class="pad" style="margin-bottom:6px"><button class="btn line" data-a="cust" data-v="${b.c}">${ic('user')} View Customer Profile ${ic('chevR')}</button></div>
+  ${built()}`}};
+
+R.profile=()=>{
+  const c=CUST[S.cust],T=['Booking History','Payment History','Preferences','Notes'],h=[['20','Jul 2026','Knotless Braids','Ibhade','9:00 AM',35000],['12','May 2026','Gel Manicure','Caramel','11:00 AM',18000],['03','Mar 2026','Hair Treatment','Titi','10:00 AM',8000]];
+  let body='';
+  if(S.ptab===0) body=`<div class="card block"><h4>${ic('cal')}Booking History<a data-a="toast" data-v="Full history is part of the full build">View all</a></h4>${h.map(x=>`<div class="hist"><span class="dt">${x[0]}<small>${x[1]}</small></span>${svcThumb(x[2],54,54,12)}<span class="grow"><b style="font-size:13.5px">${x[2]}</b><div class="mut" style="font-size:11.5px">with ${x[3]}</div><div class="mut" style="font-size:11px">${x[4]}</div></span><span style="text-align:right"><b style="font-size:13px">${naira(x[5])}</b><br><span class="pill Completed" style="height:20px;font-size:10px;margin-top:4px">Completed</span></span></div>`).join('')}</div>`;
+  if(S.ptab===1) body=`<div class="card block"><h4>${ic('card')}Payment History</h4>${h.map((x,i)=>`<div class="kv"><span class="k" style="width:auto;flex:1">${x[0]} ${x[1].slice(0,3)} · ${x[2]}</span><span class="v" style="flex:none">${naira(x[5])}</span></div><div class="mut" style="font-size:11px;margin:-4px 0 4px">${['Bank Transfer','POS','Cash'][i]}</div>`).join('')}</div>`;
+  if(S.ptab===2) body=`<div class="card block"><h4>${ic('heart')}Favourite Services</h4><div class="row" style="gap:8px">${['Knotless Braids','Gel Manicure','Hair Treatment'].map(n=>`<div style="text-align:center;font-size:11px;flex:1">${svcThumb(n,'100%',66,12)}<div style="margin-top:4px">${n}</div></div>`).join('')}</div></div>
+    <div class="card block"><h4>${ic('check')}Customer Preferences</h4>${['Prefers natural styles','Likes medium to long length','Prefers black or dark brown colour','Usually books with Ibhade','Prefers weekend appointments','Open to new styles and recommendations'].map(t=>`<div class="ck">${ic('check')}${t}</div>`).join('')}</div>`;
+  if(S.ptab===3) body=`<div class="card block"><h4>${ic('note')}Customer Notes</h4><p style="font-size:13px;line-height:1.55;margin:4px 0 0;color:#4B3A43">Prefers a quiet environment. Brings her own edge control. Very satisfied with previous services. Always on time.</p></div>`;
+  return{nav:null,html:`
+  ${hdr('Customer Profile','View customer details, history and preferences',`<button class="round" data-a="toast" data-v="More options are part of the full build">${ic('dots')}</button>`)}
+  <div class="card dhead" style="align-items:flex-start">${av(c.id,c.n,74)}<div class="grow"><div class="row"><b style="font-size:21px;font-family:var(--serif)" class="grow">${c.n}</b>${c.tier==='Elite Member'?`<span class="pill gold">Elite</span>`:''}</div>
+    <div class="kv left" style="padding:3px 0">${ic('phone')}<span class="v">${c.ph}</span></div><div class="kv left" style="padding:3px 0">${ic('mail')}<span class="v">${c.em}</span></div><div class="kv left" style="padding:3px 0">${ic('pin')}<span class="v">${c.loc}</span></div></div></div>
+  <div class="card mini"><div class="pink">${ic('cal')}<b style="color:var(--ink)">${c.v}</b><small>Total Visits</small></div><div class="pink">${ic('card')}<b style="color:var(--ink)">${naira(c.sp)}</b><small>Total Spend</small></div><div class="pink">${ic('star')}<b style="color:var(--ink)">${c.r}</b><small>Avg Rating</small></div><div class="pink">${ic('heart')}<b style="color:var(--ink)">${c.since.replace(' 20',' ')}</b><small>First Visit</small></div></div>
+  <div class="tabs">${T.map((t,i)=>`<button class="${S.ptab===i?'on':''}" data-a="ptab" data-v="${i}">${t}</button>`).join('')}</div>
+  ${body}
+  <div class="actrow"><button class="btn" data-a="newb" data-v="${c.id}">${ic('cal').replace('class="ic ','style="width:16px;height:16px" class="ic ')}Book Again</button><button class="btn line" data-a="toast" data-v="Message sent to ${c.n}">Message</button><button class="btn line" data-a="toast" data-v="Calling ${c.ph}">Call</button><button class="btn line" data-a="toast" data-v="More actions are part of the full build">More</button></div>
+  ${built()}`}};
+
+R.newb=()=>{
+  const d=S.draft,c=CUST[d.c];
+  return{html:`
+  <div class="hdr" style="padding-bottom:4px"><button class="round" data-a="back">${ic('back')}</button><div class="grow" style="text-align:center">${logo(40)}</div><div style="width:40px"></div></div>
+  <div class="pad" style="text-align:center;margin-bottom:2px"><h2 style="margin:0;font-size:20px;font-family:var(--serif)">Create New Booking</h2><div class="mut" style="font-size:12px">Fill in the details to book an appointment</div></div>
+  <div class="stepper"><div class="on"><i>1</i>Details</div><div><i>2</i>Payment</div><div><i>3</i>Review</div><div><i>4</i>Confirm</div></div>
+  <div style="height:8px"></div>
+  <div class="card nsec"><div class="top"><span class="n">1</span><div class="grow"><h5>Select Customer</h5><small>Search for an existing customer or add a new one</small></div></div>
+    <button class="sel" data-a="sheet" data-v="cust">${av(c.id,c.n,42)}<span class="grow"><b style="font-size:14px">${c.n}</b><div class="mut" style="font-size:11.5px">${c.ph}</div></span>${c.tier==='Elite Member'?'<span class="pill gold">Elite</span>':''}${ic('chevR','mut')}</button></div>
+  <div class="card nsec"><div class="top"><span class="n">2</span><div class="grow"><h5>Select Service</h5><small>Choose the service your customer wants</small></div></div>
+    <button class="sel" data-a="sheet" data-v="svc">${svcThumb(d.sv.n,52,52,12)}<span class="grow"><b style="font-size:14px">${d.sv.n}</b><div class="pink" style="font-weight:700;font-size:13px">${naira(d.sv.p)}</div><div class="mut" style="font-size:11.5px">${d.sv.d}</div></span>${ic('chevR','mut')}</button></div>
+  <div class="card nsec"><div class="top"><span class="n">3</span><div class="grow"><h5>Select Specialist</h5><small>Choose the available specialist</small></div></div>
+    <button class="sel" data-a="sheet" data-v="spec">${av(d.sp.k,d.sp.n,46)}<span class="grow"><b style="font-size:14px">${d.sp.n}</b><div class="mut" style="font-size:11.5px">${d.sp.r}</div><div style="font-size:11.5px;color:var(--amber)">${ic('star').replace('class="ic ','style="width:12px;height:12px;vertical-align:-2px" class="ic ')} ${d.sp.s}</div></span>${ic('chevR','mut')}</button></div>
+  <div class="card nsec"><div class="top"><span class="n">4</span><div class="grow"><h5>Select Date &amp; Time</h5><small>Pick a date and available time</small></div><span style="font-size:12px;font-weight:600">July 2026</span></div>
+    <div class="chips">${DAYS.map((x,i)=>`<button class="chip ${d.day===i?'on':''}" data-a="dpick" data-v="${i}">${x[1].slice(0,3)}<b>${x[2]}</b></button>`).join('')}</div>
+    <div class="times">${TIMES.map(t=>`<button class="time ${d.t===t?'on':''}" data-a="tpick" data-v="${t}">${t}</button>`).join('')}</div></div>
+  <div class="card nsec"><div class="top"><span class="n">5</span><div class="grow"><h5>Add Notes <span class="mut" style="font-weight:400;font-size:12px">(Optional)</span></h5></div></div>
+    <textarea class="notes" id="note" placeholder="e.g. Preferred style, hair length, colour, etc.">${d.note}</textarea></div>
+  <div class="card nsec"><div class="top"><span class="n">6</span><div class="grow"><h5>Payment Option</h5><small>Choose how the customer will pay</small></div></div>
+    <div class="pay2"><button class="payo ${d.pay==='salon'?'on':''}" data-a="ppick" data-v="salon">${ic('card','pink')}<b>Pay at Salon</b><small>Customer will pay at the salon</small></button>
+    <button class="payo ${d.pay==='now'?'on':''}" data-a="ppick" data-v="now">${ic('phone','pink')}<b>Pay Now</b><small>Send payment link to customer</small></button></div></div>
+  <div class="stick"><button class="btn" data-a="submit">Continue to Review ${ic('chevR')}</button></div>`}};
+
+R.done=()=>{
+  const b=get(S.last),c=CUST[b.c],D=DAYS[b.day];
+  return{html:`<div class="done">
+    <div class="row" style="position:absolute;left:18px;top:8px"><button class="round" data-a="back2">${ic('back')}</button></div>
+    <div class="okc">${ic('check')}</div>
+    <h1>You're all set!</h1><div class="mut" style="font-size:13.5px;line-height:1.5">Your appointment is confirmed.<br>We can't wait to pamper ${c.n}.</div>
+    <div class="card conf" style="position:relative;overflow:hidden">
+      <div class="row" style="gap:12px">${av(b.c,c.n,68)}<div class="grow"><div class="row"><b style="font-size:21px;font-family:var(--serif)" class="grow">${c.n}</b><span class="pill Completed">${ic('check').replace('class="ic ','style="width:11px;height:11px" class="ic ')}Confirmed</span></div><div class="pink" style="font-weight:700;margin:2px 0">${b.sv}</div><div class="mut" style="font-size:12px">${D[1]}, ${D[2]} Jul 2026 · ${b.t}</div></div></div>
+      <div class="row" style="gap:6px;margin-top:14px;font-size:11px"><div class="grow"><div class="mut" style="font-size:9.5px">STYLIST</div><b>${b.by}</b></div><div class="grow"><div class="mut" style="font-size:9.5px">DURATION</div><b>${b.d}</b></div><div class="grow"><div class="mut" style="font-size:9.5px">LOCATION</div><b>Lagos Branch</b></div><div class="grow"><div class="mut" style="font-size:9.5px">BOOKING ID</div><b>${b.ref}</b></div></div></div>
+    <div class="card conf" style="position:relative;overflow:hidden;min-height:250px"><div class="im big" data-slot="confirm-art" data-img="assets/confirm-art" style="position:absolute;right:0;bottom:0;width:42%;height:70%;-webkit-mask-image:linear-gradient(to right,transparent,#000 50%);mask-image:linear-gradient(to right,transparent,#000 50%)"></div>
+      <b style="font-size:15px;position:relative">Your Appointment Journey</b>
+      <div class="jlist" style="position:relative;max-width:62%"><div class="on">Booking Confirmed<small>You're all set! See you soon.</small></div><div>Appointment Reminder<small>We'll remind you before your appointment.</small></div><div>Checked In<small>You'll check in at the salon.</small></div><div>In Service<small>Sit back and enjoy your experience.</small></div><div>Completed<small>We can't wait to see you again!</small></div></div></div>
+    <div style="text-align:left;font-weight:700;font-size:14px;margin:16px 0 0">Helpful Actions</div>
+    <div class="help"><button data-a="toast" data-v="Added to calendar">${ic('cal')}Add to Calendar</button><button data-a="toast" data-v="Opening directions to Lekki branch">${ic('pin')}Get Directions</button><button data-a="toast" data-v="Message sent to the salon">${ic('msg')}Message Salon</button><button data-a="toast" data-v="Rescheduling is part of the full build">${ic('clock')}Reschedule</button></div>
+    <div style="height:16px"></div><button class="btn" data-a="doneGo">View My Bookings ${ic('chevR')}</button><div style="height:14px"></div></div>`}};
+
+R.sales=()=>{
+  const L=[['sandra','Sandra','Knotless Braids','2:42 PM','Bank Transfer',35000],['adaeze','Adaeze','Gel Manicure','2:18 PM','POS',18000],['chioma','Chioma','Acrylic Full Set','1:56 PM','Cash',22000],['folake','Folake','Hair Treatment','1:23 PM','Bank Transfer',8000],['zainab','Zainab','Pedicure','12:49 PM','POS',12500]];
+  return{nav:'sales',html:`
+  <div class="hdr" style="padding-top:8px"><div class="grow"><h2 style="font-size:20px">Sales &amp; Payments</h2></div><button class="btn sm" style="width:auto;padding:0 16px;font-size:13px" data-a="toast" data-v="Report exported">${ic('download').replace('class="ic ','style="width:15px;height:15px" class="ic ')}Export</button></div>
+  <div class="utabs">${['Overview','Transactions','Payouts','Invoices'].map((t,i)=>`<button class="${i===0?'on':''}" ${i?'data-a="toast" data-v="'+t+' is part of the full build"':''}>${t}</button>`).join('')}</div>
+  <div class="card pc">${slot('sales-card','art big cut')}<div class="mut" style="font-size:12px">Today's Sales</div><div style="font-size:26px;font-weight:700;letter-spacing:-.02em;margin:4px 0;position:relative">₦1,284,500</div><div class="up">▲ 14.8% <span class="mut" style="font-weight:400">vs yesterday</span></div><div class="mut" style="font-size:11px;margin-top:38px">Updated 5 mins ago</div></div>
+  <div class="card block"><div class="row" style="margin-bottom:4px"><b class="grow" style="font-size:14px">Live Sales</b><a class="pink" style="font-size:11px" data-a="toast" data-v="Transactions is part of the full build">View all</a></div>
+    ${L.map(x=>`<div class="live"><span class="mut" style="width:52px;font-size:11px">${x[3]}</span>${av(x[0],x[1],34)}<span class="grow"><b>${x[1]}</b><div class="mut" style="font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${x[2]}</div></span><span style="text-align:right"><b class="pink">${naira(x[5])}</b><br><span class="tag">${x[4]}</span></span></div>`).join('')}</div>
+  <div class="two"><div class="card"><b style="font-size:12.5px">Payment Methods</b><div class="donut"></div>
+      <div style="font-size:10.5px;line-height:1.9"><span style="color:var(--pink)">●</span> Transfer · ₦742,000<br><span style="color:#8F6BDB">●</span> Cash · ₦288,000<br><span style="color:#F6B9CD">●</span> POS · ₦254,500</div></div>
+    <div class="card"><b style="font-size:12.5px">Sales Summary</b><table class="sm" style="margin-top:6px"><tr><td class="mut">Total Sales</td><td>₦1,284,500</td></tr><tr><td class="mut">Transactions</td><td>32</td></tr><tr><td class="mut">Avg Ticket</td><td>₦40,141</td></tr><tr><td class="mut">Refunds</td><td style="color:var(--pink)">-₦6,000</td></tr><tr><td><b>Net Sales</b></td><td><b>₦1,278,500</b></td></tr></table></div></div>
+  <div class="two"><div class="card"><b style="font-size:12.5px">Top Selling Services</b>
+      ${[['Knotless Braids',560000,100],['Acrylic Full Set',264000,47],['Gel Manicure',252000,45]].map(x=>`<div style="margin-top:9px;font-size:11px"><div class="row"><span class="grow" style="font-size:10.5px">${x[0]}</span><b style="font-size:10.5px">${naira(x[1])}</b></div><div class="bar"><i style="width:${x[2]}%"></i></div></div>`).join('')}</div>
+    <div class="card"><b style="font-size:12.5px">Today's Funds</b>
+      ${[['Paid Out (Payouts)','₦540,000','card'],['Expenses','₦128,400','note'],['Net Retained','₦610,100','trend']].map(x=>`<div class="row" style="gap:8px;margin-top:11px;font-size:11px"><span class="pink">${ic(x[2]).replace('class="ic ','style="width:16px;height:16px" class="ic ')}</span><span class="grow mut">${x[0]}</span><b>${x[1]}</b></div>`).join('')}</div></div>
+  <div class="card strip" style="background:linear-gradient(135deg,#FFE3EC,#fff)"><span class="grow"><b style="font-size:14px">Get paid faster with Lov'n Pay</b><div class="mut" style="font-size:11.5px">Send payment links and accept online payments.</div></span><button class="btn sm" style="width:auto;padding:0 14px;font-size:12px" data-a="toast" data-v="Lov'n Pay is part of the full build">Activate</button></div>
+  <div style="height:8px"></div>`}};
+
+R.staff=()=>{
+  const rows=[['ibhade','Ibhade','Hair Specialist','₦256,800',14,'4.9',0],['caramel','Caramel','Nail Tech','₦192,600',12,'4.8',0],['titi','Titi','Hair & Nail Artist','₦176,250',10,'4.7',0],['bola','Bola','Braids Specialist','₦126,900',8,'4.6',1],['ngozi','Ngozi','Nail Tech','₦94,500',6,'4.5',0]];
+  return{nav:'staff',html:`
+  <div class="hdr" style="padding-top:8px"><div class="grow"><h2 style="font-size:20px">Staff Performance</h2></div><button class="btn sm" style="width:auto;padding:0 16px;font-size:13px" data-a="toast" data-v="Filters are part of the full build">${ic('filter').replace('class="ic ','style="width:14px;height:14px" class="ic ')}Filter</button></div>
+  <div class="utabs">${['Overview','Attendance','Services','Commissions'].map((t,i)=>`<button class="${i===0?'on':''}" ${i?'data-a="toast" data-v="'+t+' is part of the full build"':''}>${t}</button>`).join('')}</div>
+  <div class="card block"><b style="font-size:13px">Today's Team Summary</b><div class="sum4" style="margin:6px 0 0;padding:6px 0">
+    <div><b class="pink">12</b><span class="t">Total Staff</span></div><div><b style="color:var(--green)">9</b><span class="t">Clocked In</span></div><div><b style="color:var(--amber)">1</b><span class="t">On Break</span></div><div><b style="color:var(--purple)">2</b><span class="t">Absent</span></div></div></div>
+  <div class="card eod">${slot('trophy','big cut','position:absolute;right:4px;top:4px;bottom:4px;width:36%')}
+    <span class="pill" style="background:var(--pink);color:#fff">${ic('crown').replace('class="ic ','style="width:12px;height:12px" class="ic ')}Employee of the Day</span>
+    <div class="row" style="gap:12px;margin:12px 0;position:relative">${av('ibhade','Ibhade',58)}<div><b style="font-size:20px;font-family:var(--serif)">Ibhade</b><div class="mut" style="font-size:12px">Senior Hair Specialist</div><div style="font-size:12px;color:var(--amber)">★ 4.9 <span class="mut">(128 reviews)</span></div></div></div>
+    <div class="row" style="text-align:center;font-size:10.5px;margin-top:6px"><div class="grow"><div class="ring" style="--p:92;--c:var(--green)"><b>92%</b></div>Productivity</div><div class="grow"><div class="ring" style="--p:88;--c:var(--pink)"><b>88%</b></div>Utilization</div><div class="grow"><div class="ring" style="--p:98;--c:var(--purple)"><b style="font-size:12px">4.9/5</b></div>Customer Rating</div></div></div>
+  <div class="card block"><div class="row"><b class="grow" style="font-size:14px">Staff Leaderboard</b><a class="pink" style="font-size:11px" data-a="toast" data-v="Full report is part of the full build">View full report</a></div>
+    <table class="lb"><tr><th></th><th>Staff Member</th><th>Revenue</th><th>Rating</th><th>Status</th></tr>
+    ${rows.map((r,i)=>`<tr data-a="toast" data-v="${r[1]}'s profile is part of the full build"><td><span class="rk" style="${i>2?'background:#C9B6BF':''}">${i+1}</span></td><td><div class="row" style="gap:8px">${av(r[0],r[1],30)}<span><b>${r[1]}</b><div class="mut" style="font-size:10px">${r[2]}</div></span></div></td><td><b>${r[3]}</b></td><td style="color:var(--amber)">★ ${r[5]}</td><td><span class="act-s ${r[6]?'br':''}">${r[6]?'On Break':'Active'}</span></td></tr>`).join('')}</table></div>
+  <div class="card block"><b style="font-size:14px">Team Insights</b><div class="row" style="gap:10px;margin-top:10px;font-size:11px;text-align:center">
+    <div class="grow">${ic('trend','pink')}<div class="mut" style="margin:4px 0">Top Performer</div><b>Ibhade</b></div><div class="grow">${ic('clock','pink')}<div class="mut" style="margin:4px 0">Busiest Time</div><b>12PM - 3PM</b></div><div class="grow">${ic('star','pink')}<div class="mut" style="margin:4px 0">Best Service</div><b>Knotless Braids</b></div></div></div>
+  <div style="height:8px"></div>`}};
+
+/* stock state shared with dashboard badge */
+S.ord={gel:false,acr:false};
+const need=()=>2-(S.ord.gel?1:0)-(S.ord.acr?1:0);
+R.inventory=()=>{
+  const item=(k,name,sub,tag,pct,units,arr)=>{const done=S.ord[k];return`<div class="card" style="margin:0 18px 12px;padding:14px;${done?'border-color:#BFE6CF':'border-color:#F6DDB0;background:#FFFBF2'}">
+    <div class="row" style="gap:12px">${k==='gel'?slot('svc-gel','',`width:44px;height:52px;border-radius:12px`):`<div class="im" style="width:44px;height:52px;border-radius:12px;display:grid;place-items:center;color:var(--pink)">${ic('box')}</div>`}
+    <div class="grow"><b style="font-size:15px">${name}</b><div class="mut" style="font-size:12px;margin-top:2px">${sub}</div></div>
+    <span class="pill ${done?'Completed':'Service'}" style="height:22px;font-size:10px">${done?'Ordered':tag}</span></div>
+    <div class="bar" style="margin:12px 0;height:6px"><i style="width:${done?100:pct}%;background:${done?'var(--green)':'var(--amber)'}"></i></div>
+    ${done?`<button class="btn sm" style="width:100%;background:var(--green);box-shadow:none;pointer-events:none">${ic('check')} Ordered · arrives ${arr}</button>`:`<button class="btn sm" style="width:100%" data-a="reorder" data-v="${k}">Reorder ${units} units</button>`}</div>`};
+  const n=need();
+  return{html:`${hdr('Inventory &amp; Insights','Stock levels at a glance',`<button class="btn sm" style="width:auto;padding:0 14px" data-a="toast" data-v="Scanner is part of the full build">Scan</button>`)}
+  <div class="card" style="margin:0 18px 14px;padding:16px;display:flex;align-items:center;gap:16px">
+    <div class="ring" style="--p:94;--c:var(--green);width:84px;height:84px;margin:0"><b style="font-size:21px">94%</b></div>
+    <div><b style="font-size:17px">Stock health</b><div class="mut" style="font-size:13px;margin-top:4px">124 items tracked</div><div style="font-size:13px;margin-top:2px;color:${n?'var(--amber)':'var(--green)'};font-weight:600">${n?n+' need attention':'All good'}</div></div></div>
+  <div style="font-weight:700;font-size:15px;margin:0 18px 10px">Needs attention</div>
+  ${item('gel','Gel Polish','Nude Pink · 6 left, min 20','Low',30,30,'Thu')}
+  ${item('acr','Acrylic Powder','Clear · 14 left, min 15','Reorder soon',93,20,'Fri')}
+  <div style="font-weight:700;font-size:15px;margin:6px 18px 10px">Well stocked</div>
+  <div class="card" style="margin:0 18px 12px;padding:4px 14px">
+    ${[['Treatment Serum',28,75],['Braiding Hair',48,90]].map(x=>`<div class="row" style="gap:12px;padding:12px 0;border-bottom:1px solid var(--line)"><span class="round" style="width:38px;height:38px;color:var(--pink);background:var(--blush)">${ic('scis')}</span><div class="grow"><b style="font-size:14px">${x[0]}</b><div class="bar" style="margin-top:6px"><i style="width:${x[2]}%;background:var(--green)"></i></div></div><span class="mut" style="font-size:13px;width:62px;text-align:right">${x[1]} ${x[0]==='Braiding Hair'?'packs':'left'}</span></div>`).join('')}</div>
+  ${built()}`}};
+
+R.report=()=>({html:`${hdr('Weekly report','Your business, at a glance',`<button class="btn sm" style="width:auto;padding:0 14px" data-a="toast" data-v="Report link copied">${ic('download').replace('class="ic ','style="width:15px;height:15px" class="ic ')} Share</button>`)}
+  <div class="pad"><div class="mut" style="font-size:13px">Revenue · 12 to 18 Jul</div><div style="font-family:var(--serif);font-size:46px;font-weight:700;letter-spacing:-.02em;margin:2px 0 8px">₦8.42M</div>
+   <span class="pill Completed" style="height:28px;font-size:12px">${ic('trend').replace('class="ic ','style="width:14px;height:14px" class="ic ')} 14.8% vs last week</span></div>
+  <div class="card" style="margin:16px 18px;padding:14px 12px 10px">
+   <svg viewBox="0 0 300 150" style="width:100%;height:auto;display:block"><g stroke="#F3DCE5" stroke-width="1"><path d="M0 20H300M0 55H300M0 90H300M0 125H300"/></g>
+    <path d="M6 118 C40 116 62 108 92 104 S138 96 168 84 S214 70 240 44 S278 14 292 12" fill="none" stroke="#E8316F" stroke-width="3.5" stroke-linecap="round"/>
+    <circle cx="292" cy="12" r="6" fill="#fff" stroke="#E8316F" stroke-width="3"/></svg>
+   <div class="row mut" style="justify-content:space-between;font-size:11px;padding:4px 6px 0">${['Mon','Tue','Wed','Thu','Fri','Sat','Sun'].map(d=>`<span>${d}</span>`).join('')}</div></div>
+  <div class="card" style="margin:0 18px 12px;padding:14px 4px;display:grid;grid-template-columns:repeat(3,1fr);text-align:center">
+   <div><span class="pink">${ic('card')}</span><b style="display:block;font-size:22px;margin:6px 0 2px">76.9%</b><small class="mut">Profit margin</small></div>
+   <div style="border-left:1px solid var(--line);border-right:1px solid var(--line)"><span class="pink">${ic('cal')}</span><b style="display:block;font-size:22px;margin:6px 0 2px">142</b><small class="mut">Bookings</small></div>
+   <div><span class="pink">${ic('star')}</span><b style="display:block;font-size:22px;margin:6px 0 2px">4.9</b><small class="mut">Avg rating</small></div></div>
+  ${built()}`});
+
+/* ---------- engine ---------- */
+const $=id=>document.getElementById(id),view=$('view'),navEl=$('nav'),phone=$('phone');
+let toastT;
+function toast(m){const t=$('toast');t.textContent=m;t.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('show'),2200)}
+function render(keep){
+  const y=view.scrollTop,f=R[S.screen]();
+  view.innerHTML=f.html;view.classList.toggle('hasnav',!!f.nav);
+  navEl.hidden=!f.nav;if(f.nav)navEl.innerHTML=navHTML(f.nav);
+  view.scrollTop=keep?y:0;hydrate(phone);
+  document.querySelectorAll('#jump button').forEach(b=>b.classList.toggle('on',b.dataset.v===S.screen));
+}
+function go(s,push=true){if(push&&S.screen!==s)S.hist.push(S.screen);S.screen=s;render()}
+function back(){const p=S.hist.pop()||'dash';S.screen=p;render()}
+function sheet(title,opts,cb){
+  $('sheet').innerHTML=`<div class="grab"></div><h4>${title}</h4>`+opts.map((o,i)=>`<button class="opt" data-pick="${i}">${o.l}<span class="grow"><b>${o.t}</b>${o.s?`<small>${o.s}</small>`:''}</span>${o.r||''}</button>`).join('');
+  hydrate($('sheet'));$('sheet').classList.add('show');$('scrim').classList.add('show');S._cb=(i)=>{closeSheet();cb(i)};
+}
+function closeSheet(){$('sheet').classList.remove('show');$('scrim').classList.remove('show')}
+$('scrim').onclick=closeSheet;
+$('sheet').addEventListener('click',e=>{const b=e.target.closest('[data-pick]');if(b&&S._cb)S._cb(+b.dataset.pick)});
+
+phone.addEventListener('click',e=>{
+  const el=e.target.closest('[data-a]');if(!el)return;
+  const a=el.dataset.a,v=el.dataset.v,n=$('note');if(n&&S.draft)S.draft.note=n.value;
+  switch(a){
+   case 'login':go('dash');break;
+   case 'reorder':S.ord[v]=true;toast('Order placed. Stock arrives '+(v==='gel'?'Thursday':'Friday'));render(true);break;
+   case 'go':if(v==='bookings')S.day=S.day;go(v,false);S.hist=[];break;
+   case 'back':back();break;
+   case 'back2':S.hist=[];go('bookings',false);break;
+   case 'day':S.day=+v;S.exp=false;render(true);break;
+   case 'exp':S.exp=true;render(true);break;
+   case 'open':S.sel=v;go('detail');break;
+   case 'cust':S.cust=v;S.ptab=0;go('profile');break;
+   case 'ptab':S.ptab=+v;render(true);break;
+   case 'toast':toast(v);break;
+   case 'checkin':{const b=get(S.sel);b.st='Checked in';toast(CUST[b.c].n+' checked in');render(true);break}
+   case 'complete':{const b=get(S.sel);b.st='Completed';toast('Marked as completed');render(true);break}
+   case 'cancel':{const b=get(S.sel);b.st='Cancelled';toast('Booking cancelled');render(true);break}
+   case 'newb':S.draft=newDraft(v||'sandra');go('newb');break;
+   case 'dpick':S.draft.day=+v;render(true);break;
+   case 'tpick':S.draft.t=v;render(true);break;
+   case 'ppick':S.draft.pay=v;render(true);break;
+   case 'sheet':{
+     if(v==='cust'){const ks=['sandra','adaeze','folake','chioma','funke'];sheet('Select customer',ks.map(k=>({l:av(k,CUST[k].n,40),t:CUST[k].n,s:CUST[k].ph})),i=>{S.draft.c=ks[i];render(true)})}
+     if(v==='svc')sheet('Select service',SERVICES.map(s=>({l:svcThumb(s.n,44,44,10),t:s.n,s:naira(s.p)+' · '+s.d})),i=>{S.draft.sv=SERVICES[i];render(true)});
+     if(v==='spec')sheet('Select specialist',SPECS.map(s=>({l:av(s.k,s.n,40),t:s.n,s:s.r})),i=>{S.draft.sp=SPECS[i];render(true)});
+     break}
+   case 'submit':{
+     const d=S.draft,b=mk(d.c,d.t,[d.sv.n,d.sv.p,d.sv.d],d.sp.n,'Confirmed',d.note,d.day,d.pay==='now'?'Pending':'Pending');
+     b.method=d.pay==='now'?'Payment link':'Pay at salon';b.tx=d.pay==='now'?'Link sent':'Due at salon';
+     S.bookings.push(b);S.last=b.id;S.hist=['bookings'];S.screen='done';render();break}
+   case 'doneGo':S.day=S.bookings.find(b=>b.id===S.last).day;S.hist=[];go('bookings',false);break;
+   case 'more':
+     sheet('More',[['Inventory & Insights','box'],['Services','scis'],['Weekly Report','chart'],['Customers','users'],['Log out','logout']].map(m=>({l:`<span class="round" style="width:38px;height:38px;color:var(--pink)">${ic(m[1])}</span>`,t:m[0],r:ic('chevR','mut')})),i=>{
+       if(i===4){S.hist=[];go('login',false)}else if(i===3){S.cust='sandra';S.ptab=0;go('profile')}else if(i===0)go('inventory');else if(i===2)go('report');else toast('Services is part of the full build')});break;
+  }
+});
+
+/* side panel jumper */
+const J=[['login','Login'],['dash','Dashboard'],['bookings','Bookings'],['sales','Sales'],['staff','Staff']];
+$('jump').innerHTML=J.map(j=>`<button data-v="${j[0]}">${j[1]}</button>`).join('')+`<button data-v="newb">New booking</button>`;
+$('jump').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;S.hist=[];if(b.dataset.v==='newb'){S.draft=newDraft();}go(b.dataset.v,false)});
+render();
+</script>
+</body>
+</html>
